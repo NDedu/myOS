@@ -7,6 +7,7 @@ Minimal install (with some devtools for myself), only pacman. Every script these
 
 ## Install
 
+While installing Arch select Hyprland Desktop Environment and btrfs (recommended), and select to install packages from pre-install.txt (also do the root settings detailed at the end too).
 ```sh
 cd myOS
 ./install.sh --packages   # packages (pacman only) + configs, or ./install.sh for configs only
