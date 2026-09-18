@@ -4,7 +4,6 @@ My Hyprland desktop on a plain Arch install: Hyprland in Lua, Waybar, yazi, mako
 This config is a blend of my own old hyprland config and some Omarchy configs (solitude theme) I liked while using it from 3.0 to 4.0.
 Minimal install (with some devtools for myself), only pacman. Every script these configs call is in this folder.
 
-**The migrations and documentations were done using AI, you can call this vibecoded if you want but everything works.** My old config was done manually by me, but I don't have time to learn lua for the new hyprland's config.
 
 ## Install
 
@@ -127,3 +126,4 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 ---
 
 Parts of these configs started from [Omarchy](https://github.com/basecamp/omarchy) (MIT).
+The migrations and documentations were done using AI.
