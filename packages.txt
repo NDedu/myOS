@@ -1,0 +1,184 @@
+# Every package this setup needs. All come from the official Arch repos (no AUR).
+# Install with: ./install.sh --packages
+# or: grep -v -e '^#' -e '^\s*$' packages.txt | sudo pacman -S --needed -
+
+# Hyprland session
+hyprland
+uwsm
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+hyprland-guiutils
+qt5-wayland
+qt6-wayland
+polkit-gnome
+xdg-utils
+xorg-xwayland
+
+# Hyprland's own libraries. Installed with hyprland anyway; listed so they stay
+# explicitly installed and don't get swept up as orphans later.
+aquamarine
+hyprlang
+hyprutils
+hyprgraphics
+hyprcursor
+hyprwayland-scanner
+gsettings-desktop-schemas
+
+# Idle, lock screen, nightlight, wallpaper
+hypridle
+hyprlock
+hyprsunset
+swaybg
+
+# Notifications and on-screen display
+mako
+libnotify
+swayosd
+
+# App launcher and menus, clipboard history, emoji picker
+fuzzel
+cliphist
+unicode-emoji
+
+# Bar (waybar/install.sh checks these too)
+waybar
+pamixer
+pacman-contrib
+wiremix
+bluetui
+bluez
+bluez-utils
+
+# Network: Wi-Fi, Ethernet, VPN (nmtui opens from the bar and SUPER + CTRL + W)
+networkmanager
+
+# Terminal and fonts
+ghostty
+alacritty
+ttf-jetbrains-mono-nerd
+noto-fonts
+noto-fonts-emoji
+ttf-liberation
+ttf-jetbrains-mono
+ttf-nerd-fonts-symbols
+ttf-noto-nerd
+woff2-font-awesome
+
+# Shell (aliases, prompt, history search, tools used by the functions)
+bash-completion
+git
+lazygit
+openssh
+starship
+eza
+fzf
+zoxide
+bat
+neovim
+ripgrep
+fd
+tree-sitter-cli
+gcc
+unzip
+luarocks
+tmux
+gum
+btop
+man-db
+man-pages
+wget
+zip
+make
+github-cli
+fastfetch
+
+# Editors
+vim
+nano
+kate
+
+# Languages and language servers
+go
+gopls
+zig
+zls
+clang
+rust
+
+# File manager: yazi (the default), with previews for archives, PDFs and images
+yazi
+7zip
+poppler
+imagemagick
+
+# Nautilus (the windowed one), with Space to preview (sushi), video thumbnails, phones (MTP) and network shares (SMB, NFS)
+nautilus
+sushi
+ffmpegthumbnailer
+gvfs-mtp
+gvfs-smb
+gvfs-nfs
+
+# Dolphin (settings kept, Nautilus is the default) and how apps look (dark GTK palette + icons via QT_QPA_PLATFORMTHEME=gtk3)
+dolphin
+kio-extras
+ffmpegthumbs
+kdegraphics-thumbnailers
+archlinux-xdg-menu
+gnome-themes-extra
+papirus-icon-theme
+breeze-icons
+
+# Audio, brightness, media keys
+pipewire
+pipewire-pulse
+wireplumber
+brightnessctl
+playerctl
+
+# Power
+power-profiles-daemon
+upower
+
+# Btrfs snapshots (inert until configured: install.txt section 11)
+snapper
+
+# Screenshots, OCR, color picker, screen recording
+grim
+slurp
+satty
+hyprpicker
+wl-clipboard
+tesseract
+tesseract-data-eng
+gpu-screen-recorder
+ffmpeg
+v4l-utils
+zbar
+
+# Password storage for browsers and apps
+gnome-keyring
+libsecret
+
+# Script helpers
+jq
+socat
+curl
+
+# Apps the keybindings and default file associations open
+obsidian
+zed
+lazydocker
+vlc
+udiskie
+gnome-calculator
+calcurse
+imv
+mpv
+evince
+chromium
+firefox
+flatpak
+gparted
+pinta
+xarchiver

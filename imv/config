@@ -1,0 +1,18 @@
+[binds]
+
+# Print the current image file. Needs cups (sudo pacman -S cups && sudo systemctl enable --now cups),
+# so it's commented out; remove the leading "# " once printing is set up.
+# <Ctrl+p> = exec lp "$imv_current_file"
+
+# Trash the current image and quit the viewer (recoverable from Trash)
+<Ctrl+x> = exec gio trash -- "$imv_current_file"; quit
+
+# Trash the current image and move to the next one
+<Ctrl+Shift+X> = exec gio trash -- "$imv_current_file"; close
+
+# Rotate the current image 90 degrees. This rewrites the file (a JPEG loses a little quality each time)
+<Ctrl+r> = exec mogrify -rotate 90 "$imv_current_file"
+
+# Annotate the current image in satty and quit the viewer. Saving writes back to the same file,
+# Enter copies the result to the clipboard
+<Ctrl+e> = exec satty --filename "$imv_current_file" --output-filename "$imv_current_file" --actions-on-enter save-to-clipboard --save-after-copy --copy-command wl-copy & ; quit

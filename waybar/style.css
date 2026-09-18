@@ -1,0 +1,145 @@
+/* Theme colors (swap with scripts/theme-set.sh <name>, see themes/) */
+@import "colors.css";
+
+* {
+  background-color: @background;
+  color: @foreground;
+
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  font-family: 'JetBrainsMonoNL Nerd Font';
+  font-size: 12px;
+}
+
+.modules-left {
+  margin-left: 8px;
+}
+
+.modules-right {
+  margin-right: 8px;
+}
+
+#workspaces button {
+  all: initial;
+  padding: 0 6px;
+  margin: 0 1.5px;
+  min-width: 9px;
+}
+
+#workspaces button.empty {
+  opacity: 0.5;
+}
+
+/* Margins count as part of a module's click area, so keep them the same on both sides:
+   a click between two icons then goes to the nearer one */
+#custom-expand-icon,
+#bluetooth,
+#network,
+#cpu,
+#memory,
+#custom-temperature,
+#battery,
+#pulseaudio,
+#backlight,
+#custom-logo,
+#image.logo,
+#custom-update {
+  min-width: 12px;
+  margin: 0 7.5px;
+}
+
+#tray {
+  margin: 0 7.5px;
+}
+
+/* Drawer arrows: "<" while closed, ">" while open. A drawer is in the hover state for as long as it's
+   open, and the ">" sits on top of the "<" (negative margin), so they cross-fade once the slide ends */
+#custom-expand-icon,
+#custom-collapse-icon {
+  transition: opacity 200ms ease-in-out 400ms;
+}
+
+#custom-collapse-icon {
+  min-width: 12px;
+  margin: 0 7.5px 0 -19.5px;
+  opacity: 0;
+}
+
+#toggles-expander:hover #custom-expand-icon,
+#tray-expander:hover #custom-expand-icon {
+  opacity: 0;
+}
+
+#toggles-expander:hover #custom-collapse-icon,
+#tray-expander:hover #custom-collapse-icon {
+  opacity: 1;
+}
+
+tooltip {
+  padding: 2px;
+}
+
+#custom-update {
+  font-size: 10px;
+}
+
+/* The same margin on both sides keeps the date exactly centered */
+#clock {
+  margin: 0 8.75px;
+}
+
+/* With the clock's margin, a 14px gap so the temperature doesn't read as part of the clock */
+#custom-weather {
+  margin-left: 5.25px;
+  margin-right: 7.5px;
+}
+
+#custom-weather.unavailable {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+#custom-screenrecording-indicator {
+  min-width: 12px;
+  margin-left: 5px;
+  margin-right: 0;
+  font-size: 10px;
+  padding-bottom: 1px;
+}
+
+/* Calendar and toggles in the drawer left of the clock (hover the arrow) */
+#custom-calcurse,
+#custom-reminder-indicator,
+#custom-nightlight-indicator,
+#custom-idle-indicator,
+#custom-notification-silencing-indicator {
+  min-width: 12px;
+  margin: 0 7.5px;
+}
+
+#custom-reminder-indicator,
+#custom-nightlight-indicator,
+#custom-idle-indicator,
+#custom-notification-silencing-indicator {
+  font-size: 10px;
+  padding-bottom: 1px;
+}
+
+#custom-screenrecording-indicator.active {
+  color: #a55555;
+}
+
+/* Reminders, night light, stay awake and do not disturb are always shown so they can be clicked:
+   bright while the mode is on (reminders pending, night light on, staying awake, notifications silenced), dimmed otherwise */
+#custom-reminder-indicator.inactive,
+#custom-nightlight-indicator.inactive,
+#custom-idle-indicator.inactive,
+#custom-notification-silencing-indicator.inactive {
+  opacity: 0.45;
+}

@@ -1,0 +1,7 @@
+# yazi settings. Only what differs from the defaults goes here; everything else keeps yazi's own.
+# The full default file: https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/yazi-default.toml
+# (the section is [mgr] since yazi 25; older guides call it [manager])
+
+[mgr]
+# Show hidden files, like Nautilus does. "." still toggles them while yazi is open.
+show_hidden = true

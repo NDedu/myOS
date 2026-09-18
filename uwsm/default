@@ -1,0 +1,11 @@
+# Session defaults for uwsm. Changes require logging out and back in.
+
+# Terminal for scripts and apps that read $TERMINAL
+export TERMINAL=ghostty
+
+# Editor for terminal programs (and the SUPER + SHIFT + N binding)
+export EDITOR=nvim
+
+# Custom directories (create them first)
+# export SCREENSHOT_DIR="$HOME/Pictures/Screenshots"
+# export SCREENRECORD_DIR="$HOME/Videos/Screencasts"

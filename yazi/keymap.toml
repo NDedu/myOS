@@ -1,0 +1,11 @@
+# yazi keys. Only what's added or changed goes here; the rest stay yazi's defaults ("~" lists them all).
+# The full default file: https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/keymap-default.toml
+
+# yazi can't drag and drop (it's a terminal app), so "y" also puts the files on the system clipboard as
+# text/uri-list: file dialogs (upload, attach) and text fields then accept them. Pasting into Nautilus
+# needs GNOME's own clipboard type instead, which wl-copy can't offer at the same time; use yazi's own
+# "y" and "p" to copy files inside yazi.
+[[mgr.prepend_keymap]]
+on  = "y"
+run = [ 'shell -- for path in %s; do echo "file://$path"; done | wl-copy -t text/uri-list', "yank" ]
+desc = "Yank selected files (copy), and to the system clipboard"

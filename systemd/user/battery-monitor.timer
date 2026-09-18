@@ -1,0 +1,10 @@
+[Unit]
+Description=Check for low battery every minute
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=60sec
+AccuracySec=10sec
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,5 @@
+# Environment for the uwsm-managed Hyprland session. Changes require logging out and back in.
+
+export PATH="$PATH:$HOME/.local/bin"
+
+source ~/.config/uwsm/default

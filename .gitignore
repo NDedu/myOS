@@ -1,0 +1,7 @@
+# Written by the scripts when they run from this folder instead of ~/.config
+waybar/weather-location
+*.bak*
+
+# Editor leftovers
+*.swp
+*~

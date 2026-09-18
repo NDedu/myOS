@@ -1,0 +1,9 @@
+# Nautilus and file dialog preferences (loaded with: dconf load / < settings.dconf)
+# Nautilus keeps its "show hidden files" (Ctrl + H) and sorting choice in the GTK file chooser settings.
+
+[org/gtk/gtk4/settings/file-chooser]
+show-hidden=true
+sort-directories-first=false
+
+[org/gtk/settings/file-chooser]
+show-hidden=true

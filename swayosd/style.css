@@ -1,0 +1,34 @@
+/* On-screen display for volume, brightness and toggles (solitude colors) */
+
+@define-color background-color #101315;
+@define-color border-color #cacccc;
+@define-color label #cacccc;
+@define-color image #cacccc;
+@define-color progress #798186;
+
+window {
+  border-radius: 6px;
+  opacity: 0.97;
+  border: 2px solid @border-color;
+
+  background-color: @background-color;
+}
+
+label {
+  font-family: 'JetBrainsMonoNL Nerd Font';
+  font-size: 11pt;
+
+  color: @label;
+}
+
+image {
+  color: @image;
+}
+
+progressbar {
+  border-radius: 0;
+}
+
+progress {
+  background-color: @progress;
+}

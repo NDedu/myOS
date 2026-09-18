@@ -1,0 +1,96 @@
+sudo nano /etc/pacman.conf -> enable color, verbose package, and multilib
+
+# Packages #
+git
+ghostty
+vim
+firefox/chromium -> chromium is the default browser in myOS (packages.txt installs it); add firefox too only if you want both
+nano
+man
+make
+avahi -> needs "systemctl enable avahi-daemon" below
+noto-fonts
+neovim
+kate
+bluetui
+dolphin
+nautilus
+jq
+ttf-liberation
+gparted
+xarchiver
+ttf-jetbrains-mono
+firewalld/ufw -> pick ufw because it's already set (./set_ufw.sh)
+networkmanager
+brightnessctl
+power-profiles-daemon
+satty
+zip
+unzip
+upower
+wl-clipboard
+hyprpicker
+fzf
+fd
+wireplumber and other pipewire (piperwire-alsa)
+aquamarine
+hyprlang
+waybar
+hyprcursor
+gsettings-desktop-schemas
+hyprutils
+hyprgraphics
+hyprwayland-scanner
+swaybg/hyprpaper -> pick swaybg because it's already set (autostart.lua)
+hyprlock
+polkit-gnome/polkit-kde-agent -> pick polkit-gnome because it's already set (autostart.lua)
+mako
+uwsm
+eza
+nmtui
+wpa_supplicant
+bluez
+xdg-desktop-portal-hyprland
+xwayland -> package name is xorg-xwayland, dependency of hyprland
+gnome-keyring/kwallet -> pick gnome-keyring because it's already set (install.sh enables it)
+starship
+gsettings -> part of glib2
+swayosd
+
+# run these with sudo, after the arch finished install run in root
+systemctl enable avahi-daemon
+systemctl enable bluetooth
+systemctl enable firewalld / ufw -> enable ufw; ./set_ufw.sh enables it for you
+systemctl enable NetworkManager.service
+systemctl enable power-profiles-daemon
+
+
+### ufw setup -> not needed if will run ./set_ufw.sh ###
+# ./set_ufw.sh does the first part for you (install check, default policies, enable, status). Run your extra rules below after it
+sudo pacman -S ufw
+# Set default policies
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+# Enable the service and firewall
+sudo systemctl enable --now ufw
+sudo ufw enable
+# Verify
+sudo ufw status verbose
+# If you use LocalSend (file sharing between devices) -> it needs udp too: sudo ufw allow 53317/udp (or ./set_ufw.sh --localsend opens both)
+# KDE Connect uses different ports: sudo ufw allow 1714:1764/tcp && sudo ufw allow 1714:1764/udp
+sudo ufw allow 53317/tcp
+# If you want SSH access from your local network only -> check your network is 192.168.1.x (ip -4 addr), change the subnet if not
+sudo ufw allow from 192.168.1.0/24 to any port 22
+# If you run a local dev server and want to access it from your phone
+sudo ufw allow from 192.168.1.0/24 to any port 3000
+# If you use Syncthing -> only works once the syncthing package is installed (it provides the "syncthing" rule name)
+sudo ufw allow syncthing
+# Check what you've set
+sudo ufw status numbered
+
+Install order:
+1. Arch, plus Ly and your 0.early.txt packages.
+2. cd myOS && ./install.sh --packages
+3. Services from install.txt section1.
+4. Optionally ./set_ufw.sh.
+5. Log in with Hyprland (uwsm-managed).

@@ -1,0 +1,10 @@
+# KDE settings Dolphin reads outside Plasma
+
+[General]
+# "Open Terminal Here" (Shift+F4) opens ghostty instead of konsole. The terminal panel (F4)
+# can only embed Konsole, so it says "Konsole is not installed" without the konsole package.
+TerminalApplication=ghostty
+TerminalService=com.mitchellh.ghostty.desktop
+
+[Icons]
+Theme=Papirus-Dark

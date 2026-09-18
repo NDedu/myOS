@@ -1,0 +1,15 @@
+# ~/.bashrc
+
+# Tool paths, needed even for non-interactive shells
+case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="$PATH:$HOME/.local/bin" ;; esac
+
+# If not running interactively, don't do anything else
+[[ $- != *i* ]] && return
+
+# Shell setup from ~/.config/bash: history, completion, aliases, functions, prompt
+for file in envs shell aliases functions init; do
+  [[ -f ~/.config/bash/$file ]] && source ~/.config/bash/$file
+done
+[[ -f ~/.config/bash/inputrc ]] && bind -f ~/.config/bash/inputrc
+
+# Machine-specific exports, aliases and functions go here.

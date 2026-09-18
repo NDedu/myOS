@@ -1,0 +1,274 @@
+MANUAL INSTALL (without install.sh)
+====================================
+
+These steps do the same as ./install.sh, one command at a time. The steps marked OPTIONAL are extras
+the script doesn't do. Run them on the NEW system, as a normal user (not root), from inside this folder:
+
+    cd ~/myOS
+    mkdir -p ~/.config
+
+Everything lands in the home folder, except the packages and services in section 1 and the optional sudo steps in section 9.
+If a config already exists (for example ~/.config/hypr from Hyprland's first start), move it away
+first to keep a way back:
+
+    mv ~/.config/hypr ~/.config/hypr.bak
+
+
+1. PACKAGES (pacman only)
+-------------------------
+
+    grep -v -e '^#' -e '^\s*$' packages.txt | sudo pacman -S --needed -
+
+Services those packages need (install.sh doesn't enable these, so run them either way):
+
+    sudo systemctl enable --now NetworkManager
+    sudo systemctl enable --now bluetooth
+    sudo systemctl enable --now power-profiles-daemon
+
+Only one program should manage the network. If archinstall set up iwd or systemd-networkd instead,
+turn off whichever of these exists, after NetworkManager is running:
+
+    sudo systemctl disable --now iwd.service
+    sudo systemctl disable --now systemd-networkd.service systemd-networkd.socket
+
+See PACKAGES.md for what each package is for.
+
+
+2. HYPRLAND  (config, hypridle, hyprlock, hyprsunset, wallpaper, scripts)
+-------------------------------------------------------------------------
+
+    cp -r hypr ~/.config/hypr
+    chmod +x ~/.config/hypr/scripts/*.sh
+
+    ~/.config/hypr/hyprland.lua      main config, loads modules/
+    ~/.config/hypr/modules/          envs, monitors, input, looks, theme, window rules, autostart, bindings
+    ~/.config/hypr/hypridle.conf     idle: stay awake by default; allowed = screensaver 10 min, lock 15 min
+    ~/.config/hypr/hyprlock.conf     lock screen (time, date, password field)
+    ~/.config/hypr/lockW.png         lock screen wallpaper
+    ~/.config/hypr/hyprsunset.conf   nightlight
+    ~/.config/hypr/xdph.conf         screen sharing portal
+    ~/.config/hypr/wallpaper.jpeg    desktop wallpaper (file name set in scripts/wallpaper-reload.sh)
+    ~/.config/hypr/screensaver.txt   logo shown by the screensaver
+    ~/.config/hypr/scripts/          every script the config calls
+
+
+3. WAYBAR
+---------
+
+    cp -r waybar ~/.config/waybar
+    chmod +x ~/.config/waybar/install.sh ~/.config/waybar/scripts/*.sh ~/.config/waybar/scripts/indicators/*.sh
+
+(The Hyprland config already loads ~/.config/waybar/hyprland.lua, which starts the bar.)
+
+
+4. NOTIFICATIONS, OSD, LAUNCHER
+-------------------------------
+
+    cp -r mako ~/.config/mako            # notifications + do not disturb
+    cp -r swayosd ~/.config/swayosd      # volume/brightness pop-up
+    cp -r fuzzel ~/.config/fuzzel        # app launcher and menus
+
+
+5. TERMINAL  (ghostty, bash, prompt, tmux, btop, fonts, compose key, session env, git, lazygit, nvim)
+---------------------------------------------------------------------------------------------------
+
+    cp -r ghostty ~/.config/ghostty
+    cp -r tmux ~/.config/tmux
+    cp -r btop ~/.config/btop
+    cp -r fontconfig ~/.config/fontconfig
+    cp -r uwsm ~/.config/uwsm
+    cp starship.toml ~/.config/starship.toml
+
+    cp bash/bashrc ~/.bashrc
+    mkdir -p ~/.config/bash
+    cp bash/envs bash/shell bash/aliases bash/functions bash/init bash/inputrc ~/.config/bash/
+
+    cp XCompose ~/.XCompose
+
+Git (aliases and defaults, global ignore file):
+
+    cp -r git ~/.config/git
+    cp -r lazygit ~/.config/lazygit      # lazygit look (solitude colors, nerd font icons)
+    cp -r nvim ~/.config/nvim            # LazyVim; the first start downloads the plugins (needs internet)
+    cp -r imv ~/.config/imv              # image viewer keys: Ctrl+X trash, Ctrl+R rotate, Ctrl+E edit in satty
+    cp -r zed ~/.config/zed              # Zed editor; the first start installs its extensions (needs internet)
+
+Name and email. They are deliberately not in the repo, so set them on this machine. install.sh
+asks for them; by hand it is two commands plus the two compose shortcuts:
+
+    git config --file ~/.config/git/config user.name  "Name"
+    git config --file ~/.config/git/config user.email "name@example.com"
+
+Then edit the two lines under "# Identification" in ~/.XCompose, which type the name and email
+on Right Alt + space + n and Right Alt + space + e:
+
+    <Multi_key> <space> <n> : "Name"
+    <Multi_key> <space> <e> : "name@example.com"
+
+
+6. FILE MANAGERS  (yazi is the default, Nautilus and Dolphin kept) AND DEFAULT APPS
+-----------------------------------------------------------------------------------
+
+Default apps for each file type (folders open in yazi, videos in mpv, images in imv...):
+
+    cp mimeapps.list ~/.config/
+
+Folders open yazi in ghostty. The package's own yazi.desktop is Terminal=true, which needs a terminal
+nothing outside GNOME/KDE can find, so this entry (same name, so it wins) runs ghostty itself:
+
+    mkdir -p ~/.local/share/applications
+    cp applications/yazi.desktop ~/.local/share/applications/
+    update-desktop-database ~/.local/share/applications
+
+    cp -r yazi ~/.config/yazi            # the yazi cheatsheet (cheatsheet.md)
+
+Nautilus sidebar bookmarks, and its preferences (show hidden files, folders not sorted first):
+
+    mkdir -p ~/.config/gtk-3.0
+    sed "s|\$HOME|$HOME|g" nautilus/bookmarks > ~/.config/gtk-3.0/bookmarks
+    dconf load / < nautilus/settings.dconf
+
+Dolphin settings (it's still installed and in "Open With"):
+
+    cp dolphin/dolphinrc dolphin/kiorc dolphin/kdeglobals ~/.config/
+
+Dark theme and icons (Nautilus and Dolphin follow these):
+
+    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+    gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+    gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+
+Fill Dolphin's "Open With" list:
+
+    XDG_MENU_PREFIX=arch- kbuildsycoca6 --noincremental
+
+
+7. GNOME-KEYRING  (saved passwords for browsers and apps)
+---------------------------------------------------------
+
+    cp browser/chromium-flags.conf browser/brave-flags.conf ~/.config/
+    systemctl --user enable gnome-keyring-daemon.socket
+
+OPTIONAL (commented out for now): a passwordless default keyring. Apps never ask to unlock it,
+but saved secrets are stored UNENCRYPTED on disk. That's only reasonable with full-disk encryption.
+Skip this and gnome-keyring asks for a password the first time an app saves one.
+To use it, remove the leading "# " from each line.
+
+    # mkdir -p ~/.local/share/keyrings
+    # printf '[keyring]\ndisplay-name=Default keyring\nctime=%s\nmtime=0\nlock-on-idle=false\nlock-after=false\n' "$(date +%s)" > ~/.local/share/keyrings/Default_keyring.keyring
+    # echo "Default_keyring" > ~/.local/share/keyrings/default
+    # chmod 700 ~/.local/share/keyrings
+    # chmod 600 ~/.local/share/keyrings/Default_keyring.keyring
+    # chmod 644 ~/.local/share/keyrings/default
+
+
+8. FOLDERS
+----------
+
+Screenshots go to ~/Pictures. Screen recordings go to ~/Videos, and recording won't start without it:
+
+    mkdir -p ~/Pictures ~/Videos
+
+
+9. POWER
+--------
+
+Low battery warning (laptops only):
+
+    mkdir -p ~/.config/systemd/user
+    cp systemd/user/battery-monitor.service systemd/user/battery-monitor.timer ~/.config/systemd/user/
+    systemctl --user daemon-reload
+    systemctl --user enable --now battery-monitor.timer
+
+OPTIONAL (sudo, commented out for now): make the power key open the system menu instead of shutting
+down (active after reboot). To use it, remove the leading "# " from each line.
+
+    # sudo mkdir -p /etc/systemd/logind.conf.d
+    # printf '[Login]\nHandlePowerKey=ignore\n' | sudo tee /etc/systemd/logind.conf.d/10-ignore-power-button.conf
+
+
+10. LOG IN
+----------
+
+Start Hyprland through uwsm, so apps get their own systemd scopes:
+  - from a display manager: pick "Hyprland (uwsm-managed)"
+  - from a TTY:             uwsm start hyprland.desktop
+
+Then check:
+
+    hyprctl configerrors       # should print nothing
+    SUPER + K                  # every keybinding
+    SUPER + SPACE              # main menu (SUPER + ALT + SPACE for the app launcher)
+    SUPER + ESCAPE             # system menu (lock, suspend, restart, shutdown)
+
+
+11. SNAPSHOTS  (btrfs only, optional)
+-------------------------------------
+
+Only works if / is a btrfs subvolume. Check with: findmnt -no FSTYPE /
+
+The subvolume layout is set when the disk is partitioned, not here. A layout that keeps logs and
+the package cache out of the root snapshots:
+
+    @      ->  /
+    @home  ->  /home
+    @pkg   ->  /var/cache/pacman/pkg
+    @log   ->  /var/log
+
+mounted with: rw,relatime,compress=zstd:3,ssd,discard=async,space_cache=v2
+
+With that in place, snapper (in packages.txt) holds the configs, and snap-pac adds the pacman
+hooks that snapshot before and after every transaction:
+
+    sudo pacman -S --needed snap-pac
+    sudo snapper -c root create-config /
+    sudo snapper -c home create-config /home
+    sudo systemctl enable --now snapper-timeline.timer snapper-cleanup.timer
+
+snap-pac is installed here rather than in packages.txt because its hooks error on every pacman
+run until the snapper configs above exist.
+
+To read snapshots without sudo, in /etc/snapper/configs/root:
+
+    ALLOW_USERS="<user>"
+    TIMELINE_LIMIT_HOURLY="5"
+    TIMELINE_LIMIT_DAILY="7"
+    TIMELINE_LIMIT_WEEKLY="0"
+    TIMELINE_LIMIT_MONTHLY="0"
+    TIMELINE_LIMIT_YEARLY="0"
+
+then: sudo chmod a+rx /.snapshots
+
+    snapper -c root list                      what is there
+    sudo snapper -c root create -d "before X" one by hand
+
+ROLLING BACK
+
+Two things to know first. /boot is the EFI partition (vfat), so the kernel is not inside the
+snapshots: rolling back leaves the newer kernel in place with older modules under
+/usr/lib/modules. And "snapper rollback" works by changing the default subvolume, which does
+nothing here because fstab pins subvol=/@.
+
+So for single files, copy them out of /.snapshots/<n>/snapshot/ while the system is running.
+For the whole root, swap the subvolume from an Arch install USB:
+
+    mount -o subvolid=5 /dev/<root-partition> /mnt
+    mv /mnt/@ /mnt/@.broken
+    btrfs subvolume snapshot /mnt/@.broken/.snapshots/<n>/snapshot /mnt/@
+    reboot
+
+Reinstall the kernel afterwards if the snapshot predates a kernel update: pacman -S linux
+
+CHANGING THINGS LATER
+---------------------
+
+Edit the copies in ~/.config, not this folder, and copy changes back here to keep them.
+
+    Hyprland    ~/.config/hypr/modules/*.lua     hyprctl reload, then hyprctl configerrors
+    hypridle    ~/.config/hypr/hypridle.conf     pkill hypridle; hypridle &
+    mako        ~/.config/mako/config            makoctl reload
+    waybar      ~/.config/waybar/                ~/.config/waybar/scripts/restart-waybar.sh
+    fuzzel      ~/.config/fuzzel/fuzzel.ini      next time it opens (check with: fuzzel --check-config)
+    swayosd     ~/.config/swayosd/               pkill swayosd-server; swayosd-server &
+    ghostty     ~/.config/ghostty/config         new windows, or ctrl+shift+comma to reload
+    bash        ~/.bashrc, ~/.config/bash/       new terminal

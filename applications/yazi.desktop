@@ -1,0 +1,14 @@
+[Desktop Entry]
+# Overrides the yazi.desktop from the package, which is Terminal=true: outside GNOME/KDE nothing
+# knows which terminal to use, so folders opened from other apps would do nothing. This one opens
+# ghostty itself. It makes yazi the file manager for folders (see mimeapps.list).
+Type=Application
+Name=Yazi File Manager
+Comment=Terminal file manager, in ghostty
+Icon=yazi
+TryExec=yazi
+Exec=ghostty --class=org.hypr.yazi -e yazi %f
+Terminal=false
+MimeType=inode/directory;
+Categories=System;FileManager;FileTools;
+Keywords=File;Manager;Explorer;Browser;

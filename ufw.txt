@@ -1,0 +1,157 @@
+UFW FIREWALL
+============
+
+Block every incoming connection, allow everything outgoing, with two exceptions: LocalSend, and
+DNS for Docker containers. Docker publishes ports straight to the kernel, so it needs the
+"ufw-docker" rules too, or a published container port bypasses the firewall entirely.
+
+ufw-docker is AUR-only, so its rules go in by hand in step 4 (the same text the tool writes).
+
+Run everything as a normal user; the commands use sudo.
+
+SHORTCUT: ./set_ufw.sh does all of this (it's separate from install.sh):
+
+    ./set_ufw.sh                 steps 2, 5 and 6 (nothing in, everything out)
+    ./set_ufw.sh --localsend     plus step 3
+    ./set_ufw.sh --docker        plus step 4
+    ./set_ufw.sh --all           everything
+
+It's safe to run again: existing rules are skipped and the Docker block is only added once.
+
+
+1. INSTALL
+----------
+
+    sudo pacman -S --needed ufw
+
+
+2. DEFAULT POLICY: nothing in, everything out
+---------------------------------------------
+
+    sudo ufw default deny incoming
+    sudo ufw default allow outgoing
+
+Replies to outgoing connections (web, updates, DHCP, DNS) still come back in. Only new
+connections started by other machines are blocked.
+
+
+3. OPTIONAL: LOCALSEND  (only with LocalSend installed, for sharing files over the network)
+----------------------------------------------------------------------------------------
+
+    sudo ufw allow 53317/udp
+    sudo ufw allow 53317/tcp
+
+
+4. OPTIONAL: DOCKER  (only with Docker installed)
+---------------------------------------------
+
+a) Let containers use DNS on the host:
+
+    sudo ufw allow in proto udp from 172.16.0.0/12 to 172.17.0.1 port 53 comment 'allow-docker-dns'
+    sudo ufw allow in proto udp from 192.168.0.0/16 to 172.17.0.1 port 53 comment 'allow-docker-dns'
+
+b) Stop Docker's published ports from bypassing the firewall (what "ufw-docker install" does).
+   Append the block to /etc/ufw/after.rules (IPv4) and /etc/ufw/after6.rules (IPv6), once each.
+   The grep lines skip it if the block is already there. Paste each block whole:
+
+    grep -q "BEGIN UFW AND DOCKER" /etc/ufw/after.rules || sudo tee -a /etc/ufw/after.rules >/dev/null <<'EOF'
+# BEGIN UFW AND DOCKER
+*filter
+:ufw-user-forward - [0:0]
+:ufw-docker-logging-deny - [0:0]
+:DOCKER-USER - [0:0]
+-A DOCKER-USER -j ufw-user-forward
+
+-A DOCKER-USER -m conntrack --ctstate RELATED,ESTABLISHED -j RETURN
+-A DOCKER-USER -m conntrack --ctstate INVALID -j DROP
+-A DOCKER-USER -i docker0 -o docker0 -j ACCEPT
+
+-A DOCKER-USER -j RETURN -s 10.0.0.0/8
+-A DOCKER-USER -j RETURN -s 172.16.0.0/12
+-A DOCKER-USER -j RETURN -s 192.168.0.0/16
+-A DOCKER-USER -j ufw-docker-logging-deny -m conntrack --ctstate NEW -d 10.0.0.0/8
+-A DOCKER-USER -j ufw-docker-logging-deny -m conntrack --ctstate NEW -d 172.16.0.0/12
+-A DOCKER-USER -j ufw-docker-logging-deny -m conntrack --ctstate NEW -d 192.168.0.0/16
+
+-A DOCKER-USER -j RETURN
+
+-A ufw-docker-logging-deny -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW DOCKER BLOCK] "
+-A ufw-docker-logging-deny -j DROP
+
+COMMIT
+# END UFW AND DOCKER
+EOF
+
+    grep -q "BEGIN UFW AND DOCKER" /etc/ufw/after6.rules || sudo tee -a /etc/ufw/after6.rules >/dev/null <<'EOF'
+# BEGIN UFW AND DOCKER
+*filter
+:ufw6-user-forward - [0:0]
+:ufw6-docker-logging-deny - [0:0]
+:DOCKER-USER - [0:0]
+-A DOCKER-USER -j ufw6-user-forward
+
+-A DOCKER-USER -m conntrack --ctstate RELATED,ESTABLISHED -j RETURN
+-A DOCKER-USER -m conntrack --ctstate INVALID -j DROP
+-A DOCKER-USER -i docker0 -o docker0 -j ACCEPT
+
+-A DOCKER-USER -j RETURN -s fd00::/8
+-A DOCKER-USER -j ufw6-docker-logging-deny -m conntrack --ctstate NEW -d fd00::/8
+
+-A DOCKER-USER -j RETURN
+
+-A ufw6-docker-logging-deny -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW DOCKER BLOCK] "
+-A ufw6-docker-logging-deny -j DROP
+
+COMMIT
+# END UFW AND DOCKER
+EOF
+
+   The lines between <<'EOF' and EOF must start at the beginning of the line, and the closing
+   EOF must be alone on its line. If the paste adds leading spaces, remove them.
+
+   With this in place, a port published with "docker run -p" is NOT reachable from other machines
+   until it's allowed, for example:  sudo ufw route allow proto tcp from any to any port 8080
+
+
+5. TURN IT ON (now and at every boot)
+-------------------------------------
+
+    sudo ufw enable
+    sudo systemctl enable --now ufw
+
+"ufw enable" loads the rules and sets ENABLED=yes in /etc/ufw/ufw.conf. The systemd service
+reapplies them at boot. If the Docker block went in after enabling, run: sudo ufw reload
+
+
+6. CHECK
+--------
+
+    sudo ufw status verbose
+
+Expected (with the optional parts):
+
+    Status: active
+    Default: deny (incoming), allow (outgoing), deny (routed)
+
+    To                         Action      From
+    --                         ------      ----
+    53317/udp                  ALLOW IN    Anywhere
+    53317/tcp                  ALLOW IN    Anywhere
+    172.17.0.1 53/udp          ALLOW IN    172.16.0.0/12     # allow-docker-dns
+    172.17.0.1 53/udp          ALLOW IN    192.168.0.0/16    # allow-docker-dns
+    (plus the same two LocalSend lines for IPv6)
+
+Blocked connections are logged with the prefix "[UFW BLOCK]":  journalctl -k | grep UFW
+
+
+EVERYDAY USE
+------------
+
+    sudo ufw allow 22/tcp               allow SSH into this machine
+    sudo ufw status numbered            list rules with numbers
+    sudo ufw delete 3                   delete rule number 3
+    sudo ufw disable                    turn the firewall off (rules are kept)
+    sudo ufw reset                      remove every rule and turn it off (then start again at step 2)
+
+Nothing else is open. Anything on the network that can't reach this laptop (SSH, KDE Connect, a
+dev server called from a phone) needs its own "ufw allow" rule.

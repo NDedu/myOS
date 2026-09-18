@@ -1,0 +1,36 @@
+# Notifications (mako), solitude colors. Reload with: makoctl reload
+# SUPER + comma dismiss · SUPER + SHIFT + comma dismiss all · SUPER + ALT + comma invoke
+# SUPER + SHIFT + ALT + comma restore last · SUPER + CTRL + comma do not disturb
+
+text-color=#cacccc
+border-color=#798186
+background-color=#101315
+progress-color=over #343d41
+
+anchor=top-right
+group-by=app-name,summary,body
+default-timeout=5000
+width=420
+outer-margin=20
+padding=10,15
+border-size=2
+border-radius=6
+max-icon-size=32
+max-history=20
+font=JetBrainsMonoNL Nerd Font 11
+
+# Do not disturb hides everything except notify-send (used by the desktop's own messages)
+[mode=do-not-disturb]
+invisible=true
+
+[mode=do-not-disturb app-name=notify-send]
+invisible=false
+
+[urgency=critical]
+default-timeout=0
+layer=overlay
+border-color=#de6145
+
+[summary~="Screenshot saved"]
+max-icon-size=80
+format=<b>%s</b>\n%b

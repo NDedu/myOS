@@ -1,0 +1,20 @@
+# Editor used by CLI tools
+export EDITOR="${EDITOR:-nvim}"
+export SUDO_EDITOR="$EDITOR"
+
+# Used by terminal programs (like gh) to open URLs
+export BROWSER="${BROWSER:-xdg-open}"
+export BAT_THEME=ansi
+
+# Color man pages with bat
+export MANROFFOPT="-c"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# SSH and other non-login shells miss /etc/profile.d/locale.sh
+if [ -z "${LANG:-}" ]; then
+  [ -r /etc/locale.conf ] && . /etc/locale.conf
+  LANG="${LANG:-C.UTF-8}"
+  export LANG LANGUAGE LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY \
+    LC_MESSAGES LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT \
+    LC_IDENTIFICATION
+fi
