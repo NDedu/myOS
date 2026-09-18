@@ -29,9 +29,9 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 **Running this will overwrites the configs already in place.**
 **You may also want to change the logos waybar/logo.txt and hypr/screensaver.txt**
 
-<img width="2048" height="1280" alt="image" src="https://github.com/user-attachments/assets/aaa7d591-bfe0-4aae-b670-3fb837eab111" />
+<img width="2048" height="1280" alt="screenshot-2026-09-18_11-32-08" src="https://github.com/user-attachments/assets/2d826042-bf84-429a-a6b2-1a33b73c0960" />
 
-<img width="2048" height="1280" alt="image" src="https://github.com/user-attachments/assets/ac892adf-fa15-4a8b-bc4a-9e581ed0a1d6" />
+<img width="2048" height="1280" alt="screenshot-2026-09-18_11-35-16" src="https://github.com/user-attachments/assets/4bc8a088-210e-46cf-9123-5fb0402bd859" />
 
 ## Keybindings (highlights)
 
