@@ -27,7 +27,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 - making the power key open the system menu
 
 **Running this will overwrites the configs already in place.**
-**You may also want to change the logos waybar/logo.txt and hypr/screensaver.txt**
+**You may also want to change the logos waybar/logo.txt and hypr/screensaver.txt**, to use your own logo.
 
 <p>
   <img width="49%" alt="screenshot-2026-09-18_11-32-08" src="https://github.com/user-attachments/assets/2d826042-bf84-429a-a6b2-1a33b73c0960" />
@@ -106,7 +106,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
    **hypridle** stays awake by default. SUPER + CTRL + I (or the coffee cup 󰅶 in the bar's drawer) allows idle: screensaver after 10 minutes, lock after 15. **hyprsunset** is the night light (SUPER + CTRL + N), off at every login.
 2. **Files**: **yazi** in ghostty (SUPER + SHIFT + F), also for folders opened from other apps. Its keys are in `yazi/cheatsheet.md`, and `~` inside yazi opens its help.
    **Nautilus** (SUPER + CTRL + SHIFT + F) has previews (Space), video thumbnails, phones and network shares, and shows hidden files. **Dolphin** stays available from "Open With".
-3. **Lock screen**: hyprlock on `hypr/lockW.png`, time and date at the top, password field at the bottom. SUPER + CTRL + L locks. Locking before suspend and on lid close is commented out in `hypridle.conf` and `scripts/lid-close.sh`.
+3. **Lock screen**: hyprlock on `hypr/lockW.png`, time and date at the top, password field at the bottom. SUPER + CTRL + L locks, and the displays turn off a minute later (any key wakes them). Locking before suspend and on lid close is commented out in `hypridle.conf` and `scripts/lid-close.sh`.
 4. **Terminal**: ghostty in the solitude palette, JetBrainsMonoNL Nerd Font 9. Bash with eza, zoxide, fzf, history search on arrows and git aliases, plus Starship, tmux and btop. The screensaver prints `screensaver.txt` on a black screen until a key is pressed.
 5. **Notifications**: mako, top right. SUPER + comma dismisses (SHIFT: all). SUPER + CTRL + comma or the bell (󰂛) toggles do not disturb, which still lets the desktop's own messages (reminders, screenshots, battery) through.
 6. **Power**: SUPER + ESCAPE opens the system menu (the power key too, after `install.txt` section 9). SUPER + CTRL + P or a click on the battery picks the power profile. A warning at 10% battery.
