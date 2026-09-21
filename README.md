@@ -13,6 +13,9 @@ cd myOS
 ./install.sh --packages   # packages (pacman only) + configs, or ./install.sh for configs only
 ```
 
+**Running this will overwrites the configs already in place.**
+**You may also want to change the logos waybar/logo.txt and hypr/screensaver.txt**, to use your own logo.
+
 To do it by hand, follow `install.txt`. It lists every copy command the script runs.
 
 Then log in through uwsm: pick **Hyprland (uwsm-managed)** in the display manager, or run `uwsm start hyprland.desktop`.
@@ -25,9 +28,6 @@ It also sets the dark GTK theme and icons, enables gnome-keyring, and enables th
 Two extras stay commented out, with the commands in `install.txt` (sections 7 and 9):
 - the passwordless keyring
 - making the power key open the system menu
-
-**Running this will overwrites the configs already in place.**
-**You may also want to change the logos waybar/logo.txt and hypr/screensaver.txt**, to use your own logo.
 
 <p>
   <img width="49%" alt="screenshot-2026-09-18_11-32-08" src="https://github.com/user-attachments/assets/2d826042-bf84-429a-a6b2-1a33b73c0960" />
