@@ -33,19 +33,6 @@ grep -v -e '^#' -e '^\s*$' packages.txt | sudo pacman -S --needed -
 | Apps opened by bindings and default file types | `obsidian` `zed` `lazydocker` `vlc` `udiskie` `gnome-calculator` `calcurse` `imv` `mpv` `evince` `chromium` |
 | Other apps | `firefox` `flatpak` `gparted` `pinta` `xarchiver` |
 
-## Swapped-out packages
-
-A few of the tools these configs used aren't in the official repos. What's used instead:
-
-| Instead of | Now | Notes |
-| --- | --- | --- |
-| walker + elephant (launcher, clipboard, emojis) | `fuzzel`, `cliphist`, `unicode-emoji` | Same keys: SUPER + ALT + SPACE, SUPER + CTRL + V, SUPER + CTRL + E |
-| xdg-terminal-exec | ghostty called directly | `TERMINAL=ghostty` |
-| yaru-icon-theme (Yaru-sage-dark) | `papirus-icon-theme` (Papirus-Dark) | `breeze-dark` or `Adwaita` swap in cleanly: change the `gsettings` command in install.txt and `~/.config/kdeglobals` |
-| tensaku (screenshot editor) | `satty` | |
-| ttfx / terminaltexteffects (screensaver) | `hypr/scripts/screensaver.sh` | Plain bash: the logo, centered and static |
-| hyprland-preview-share-picker | the portal's default picker | Comes with `xdg-desktop-portal-hyprland` |
-
 ## Notes
 
 - **Network:** `sudo systemctl enable --now NetworkManager`. The bar's network icon and SUPER + CTRL + W open `nmtui`. impala isn't included: it only works with iwd running and NetworkManager disabled.

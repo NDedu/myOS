@@ -69,7 +69,6 @@ cat <<EOF
 
 Next steps:
   1. Load the Hyprland integration (already done by the myOS hypr config):
-       hyprland.lua:  dofile(os.getenv("HOME") .. "/.config/waybar/hyprland.lua")
-       hyprland.conf: source = ~/.config/waybar/hyprland.conf
+       dofile(os.getenv("HOME") .. "/.config/waybar/hyprland.lua")
   2. Start or restart the bar:   ~/.config/waybar/scripts/restart-waybar.sh
 EOF

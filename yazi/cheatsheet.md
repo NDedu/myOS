@@ -59,10 +59,10 @@ Folders opened from other apps (a browser's "show in folder", a file dialog) ope
 
 | Keys | What |
 | --- | --- |
-| `;` | Run a shell command (`$0` is the hovered file, `$@` the selected ones) |
+| `;` | Run a shell command (`%h` is the hovered file, `%s` the selected ones) |
 | `:` | Same, but wait and show the output before returning |
 
-Example: select some files with `Space`, press `;`, and run `zip -r out.zip "$@"`.
+Example: select some files with `Space`, press `;`, and run `zip -r out.zip %s`.
 
 ## Getting files into other apps
 

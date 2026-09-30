@@ -65,12 +65,9 @@ local cheatsheet = [==[
   :'<,'>s/old/new/g   Replace in selection
   <leader>sr          grug-far (project find/replace)
 
-## Comments / Surround
+## Comments
   gcc                 Toggle comment line
   gc{motion}          Comment over motion
-  gsa{motion}{c}      Add surround
-  gsd{c}              Delete surround
-  gsr{old}{new}       Replace surround
 
 ## Git
   <leader>gg          LazyGit
@@ -101,7 +98,7 @@ local cheatsheet = [==[
   <leader>qs / <leader>ql   Restore session (cwd / last)
 
 ## Custom
-  <leader>rw          Toggle replace word
+  <leader>rw          Replace word in file
 
 ]==]
 

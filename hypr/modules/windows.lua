@@ -84,7 +84,6 @@ o.window("^(Bitwarden)$", { no_screen_share = true, tag = "+floating-window" })
 o.window("^(jetbrains-.*)$", { no_follow_mouse = true })
 o.window("(Share|localsend)", { float = true, center = true })
 o.window("localsend", { size = { 1100, 700 } })
-o.window("org.telegram.desktop", { focus_on_activate = false })
 o.window("qemu", { tag = "-default-opacity", opacity = "1 1" })
 
 o.window("steam", { float = true, idle_inhibit = "fullscreen" })

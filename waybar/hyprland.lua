@@ -1,7 +1,6 @@
 -- Waybar integration for a Hyprland Lua config (Hyprland 0.55+).
 -- Loaded from ~/.config/hypr/hyprland.lua with:
 --   dofile(os.getenv("HOME") .. "/.config/waybar/hyprland.lua")
--- (hyprland.conf in this folder is the same thing for the old hyprlang config)
 
 local scripts = os.getenv("HOME") .. "/.config/waybar/scripts/"
 

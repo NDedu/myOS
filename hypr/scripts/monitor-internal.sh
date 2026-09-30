@@ -21,7 +21,8 @@ on() {
     notify-send -u low "󰍹    Laptop display enabled"
   fi
 
-  hypr_dispatch 'hl.dsp.dpms({ action = "enable" })'
+  # Only when a display is actually off: a redundant enable flashes the lock screen
+  "$SCRIPTS_DIR/brightness-display.sh" on
 }
 
 off() {

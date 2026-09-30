@@ -74,18 +74,11 @@ Press `q` or `<Esc>` to close. `/pattern` to search inside this window.
   i{ / a{             Inside / around braces         (also iB)
   it / at             Inside / around HTML/XML tag
 
-## Comments (mini.comment — LazyVim default)
+## Comments (built in)
   gcc                 Toggle comment on line
   gc{motion}          Comment over motion (e.g. gcap = paragraph)
   {visual}gc          Comment selection
   gco / gcO           Add comment line below / above + insert mode
-
-## Surround (mini.surround — LazyVim default)
-  gsa{motion}{c}      Add surround (e.g. gsaiw" wraps word in quotes)
-  gsd{c}              Delete surround (e.g. gsd" removes quotes)
-  gsr{old}{new}       Replace surround (e.g. gsr({ changes ( to {)
-  gsf / gsF           Find surround right / left
-  gsh                 Highlight surround
 
 ## Buffers (LazyVim)
   <S-h> / <S-l>       Previous / next buffer
@@ -164,7 +157,7 @@ Press `q` or `<Esc>` to close. `/pattern` to search inside this window.
   <leader>cs          Symbols (Trouble)
   <leader>cS          LSP refs / defs / impls
 
-## Explorer (Snacks Explorer — LazyVim default)
+## Explorer (neo-tree)
   <leader>e           Explorer (root dir)
   <leader>E           Explorer (cwd)
   <leader>fe          Explorer (root dir)
@@ -270,7 +263,7 @@ Press `q` or `<Esc>` to close. `/pattern` to search inside this window.
   <leader>qd          Don't save current session
 
 ## Custom (your mappings)
-  <leader>rw          Toggle replace word
+  <leader>rw          Replace word in file
 
 ## Misc
   <leader>l           Lazy (plugin manager UI)

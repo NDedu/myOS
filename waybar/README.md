@@ -4,7 +4,7 @@ A self-contained Waybar config: no external commands or environment variables, e
 bar calls is in `scripts/`.
 
 It works the other way round too: the Hyprland config in `../hypr` calls `scripts/launcher.sh`
-for every fuzzel menu (system, capture, toggle, hardware, reminders) and `scripts/power-profile-menu.sh`
+for every fuzzel menu (system, capture, toggle, reminders) and `scripts/power-profile-menu.sh`
 for SUPER + CTRL + P. Installing `hypr/` without this folder leaves those menus broken, so the two install together.
 Every script the bar calls lives in `scripts/`.
 
@@ -17,20 +17,14 @@ Copy this folder anywhere and run:
 ```
 
 It copies the folder to `~/.config/waybar` (an existing one is moved to `waybar.bak.<timestamp>`),
-and lists missing packages. Then load the Hyprland integration.
-With a Lua config (`hyprland.lua`, Hyprland 0.55+; the myOS hypr config already does this):
+and lists missing packages. Then load the Hyprland integration from a Lua config
+(`hyprland.lua`, Hyprland 0.55+; the myOS hypr config already does this):
 
 ```lua
 dofile(os.getenv("HOME") .. "/.config/waybar/hyprland.lua")
 ```
 
-With the old hyprlang config (`hyprland.conf`):
-
-```
-source = ~/.config/waybar/hyprland.conf
-```
-
-Either file starts the bar, floats the terminals it opens, and adds the toggle keys.
+It starts the bar, floats the terminals it opens, and adds the toggle keys.
 
 ## What the clicks do
 
@@ -80,6 +74,6 @@ Customize `config.jsonc` and `style.css`, and leave `defaults/` untouched so the
   `custom/logo` with `image#logo` in `modules-left` of `config.jsonc`.
 - The update icon tracks pacman package updates (`checkupdates`).
 - Colors come from `colors.css` (Vantablack by default, see `themes/vantablack.css`). Switch with `scripts/theme-set.sh <name>`.
-- Terminals get the app-id `org.waybar.*`, which the window rules in `hyprland.conf` match.
+- Terminals get the app-id `org.waybar.*`, which the window rules in `hyprland.lua` match.
 - Notification silencing supports mako, swaync and dunst. With mako, the config needs a
   `[mode=do-not-disturb]` section with `invisible=true`.

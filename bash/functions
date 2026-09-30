@@ -112,36 +112,6 @@ _ssh_interactive() {
   ! grep -i '^remotecommand ' <<<"$resolved" | grep -qvi '^remotecommand none$'
 }
 
-# Run the same command in several tmux panes at once
-# Usage: tsl <pane_count> <command>
-tsl() {
-  [[ -z $1 || -z $2 ]] && { echo "Usage: tsl <pane_count> <command>"; return 1; }
-  [[ -z $TMUX ]] && { echo "You must start tmux to use tsl."; return 1; }
-
-  local count="$1"
-  local cmd="$2"
-  local current_dir="${PWD}"
-  local -a panes
-
-  tmux rename-window -t "$TMUX_PANE" "$(basename "$current_dir")"
-
-  panes+=("$TMUX_PANE")
-
-  while (( ${#panes[@]} < count )); do
-    local new_pane
-    local split_target="${panes[-1]}"
-    new_pane=$(tmux split-window -h -t "$split_target" -c "$current_dir" -P -F '#{pane_id}')
-    panes+=("$new_pane")
-    tmux select-layout -t "${panes[0]}" tiled
-  done
-
-  for pane in "${panes[@]}"; do
-    tmux send-keys -t "$pane" "$cmd" C-m
-  done
-
-  tmux select-pane -t "${panes[0]}"
-}
-
 # Create a new worktree and branch from within current git directory.
 ga() {
   if [[ -z "$1" ]]; then
