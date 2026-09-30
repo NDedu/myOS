@@ -20,12 +20,23 @@ if [[ -z $device ]]; then
   exit 1
 fi
 
+# Marks that "off" saved a level, so "restore" (wake.sh, also run after every resume) only undoes an "off".
+# A second "off" while locked keeps the first saved level instead of saving 0.
+off_flag="${XDG_RUNTIME_DIR:-/tmp}/hypr-kbd-backlight-off"
+
 case "$direction" in
 off)
-  brightnessctl -sd "$device" set 0 >/dev/null
+  if [[ -f $off_flag ]]; then
+    brightnessctl -d "$device" set 0 >/dev/null
+  else
+    brightnessctl -sd "$device" set 0 >/dev/null
+    touch "$off_flag"
+  fi
   exit 0
   ;;
 restore)
+  [[ -f $off_flag ]] || exit 0
+  rm -f "$off_flag"
   brightnessctl -rd "$device" >/dev/null
   exit 0
   ;;

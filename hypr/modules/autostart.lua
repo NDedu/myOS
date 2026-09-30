@@ -26,8 +26,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/usr/lib/hyprpolkitagent/hyprpolkitagent")
   end
 
-  -- Clipboard history for SUPER + CTRL + V
-  launch_if_present("cliphist", "wl-paste --watch cliphist store")
+  -- Clipboard history for SUPER + CTRL + V, text only (copied images and screenshots aren't kept)
+  launch_if_present("cliphist", "wl-paste --type text --watch cliphist store")
 
   -- Recover the laptop display if it was left disabled without an external monitor
   hl.exec_cmd(o.launch(o.script("monitor-watch.sh")))

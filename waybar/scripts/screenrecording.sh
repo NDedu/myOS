@@ -126,18 +126,21 @@ select_capture_target() {
   local sx=${BASH_REMATCH[1]} sy=${BASH_REMATCH[2]}
   local sw=${BASH_REMATCH[3]} sh=${BASH_REMATCH[4]}
 
-  # A bare click (area < 20px²) snaps to whichever rectangle the click landed
-  # inside, so users don't end up with accidental 2px recordings.
+  # A bare click (area < 20px²) snaps to the smallest rectangle the click landed
+  # inside (the one slurp highlights), so users don't end up with accidental 2px recordings.
   if ((sw * sh < 20)); then
+    local rect best="" best_area=0
     while IFS= read -r rect; do
       [[ $rect =~ ^(-?[0-9]+),(-?[0-9]+)[[:space:]]([0-9]+)x([0-9]+)$ ]] || continue
       local rx=${BASH_REMATCH[1]} ry=${BASH_REMATCH[2]}
       local rw=${BASH_REMATCH[3]} rh=${BASH_REMATCH[4]}
-      if ((sx >= rx && sx < rx + rw && sy >= ry && sy < ry + rh)); then
-        sx=$rx sy=$ry sw=$rw sh=$rh
-        break
+      ((sx >= rx && sx < rx + rw && sy >= ry && sy < ry + rh)) || continue
+      if [[ -z $best ]] || ((rw * rh < best_area)); then
+        best="$rx $ry $rw $rh"
+        best_area=$((rw * rh))
       fi
     done <<<"$rects"
+    [[ -n $best ]] && read -r sx sy sw sh <<<"$best"
   fi
 
   # When the selection exactly matches a monitor, prefer -w <monitor> over a
@@ -208,6 +211,9 @@ start_screenrecording() {
   if kill -0 $pid 2>/dev/null; then
     echo "$filename" >"$RECORDING_FILE"
     toggle_screenrecording_indicator
+  else
+    notify-send -u critical -t 5000 "Screen recording failed to start" "SCREENRECORD_DEBUG=true logs the reason (see screenrecording.sh)"
+    return 1
   fi
 }
 

@@ -127,6 +127,8 @@ install_path mimeapps.list "$config/mimeapps.list"
 # Folders open yazi in ghostty. The package's own yazi.desktop is Terminal=true, which needs a terminal
 # nothing outside GNOME/KDE can find, so this entry (same name, so it wins) runs ghostty itself.
 install_path applications/yazi.desktop "$HOME/.local/share/applications/yazi.desktop"
+# Same for text files: xdg-open ignores Terminal=true and would start nvim with no window
+install_path applications/nvim.desktop "$HOME/.local/share/applications/nvim.desktop"
 command -v update-desktop-database >/dev/null && update-desktop-database "$HOME/.local/share/applications" 2>/dev/null
 
 # Nautilus sidebar bookmarks

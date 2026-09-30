@@ -1,0 +1,14 @@
+[Desktop Entry]
+# Overrides the nvim.desktop from the package, which is Terminal=true: xdg-open (used by browsers and
+# Electron apps to open files) ignores that and starts nvim with no window. This one opens ghostty itself.
+Type=Application
+Name=Neovim
+GenericName=Text Editor
+Comment=Edit text files, in ghostty
+Icon=nvim
+TryExec=nvim
+Exec=ghostty -e nvim %F
+Terminal=false
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;application/xml;text/xml;
+Categories=Utility;TextEditor;Development;
+Keywords=Text;editor;

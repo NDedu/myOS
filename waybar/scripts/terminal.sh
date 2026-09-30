@@ -11,7 +11,7 @@ if command -v xdg-terminal-exec >/dev/null; then
   exec xdg-terminal-exec --app-id="$app_id" ${1:+-e} "$@"
 fi
 
-for terminal in $TERMINAL alacritty kitty foot ghostty; do
+for terminal in $TERMINAL ghostty alacritty kitty foot; do
   command -v "$terminal" >/dev/null || continue
 
   case $(basename "$terminal") in

@@ -41,13 +41,18 @@ brightness() {
 
 current=$(brightness)
 
-# 1% steps at or below 5%, and absolute targets so raw backlight rounding doesn't make uneven steps
+# 1% steps at or below 5%, and absolute targets so raw backlight rounding doesn't make uneven steps.
+# Stepping down stops at 1%, like the minimum key.
 if [[ $step == "+5%" ]]; then
   ((current < 5)) && target=$((current + 1)) || target=$((current + 5))
   ((target > 100)) && target=100
   step="$target%"
 elif [[ $step == "5%-" ]]; then
   ((current <= 5)) && target=$((current - 1)) || target=$((current - 5))
+  ((target < 1)) && target=1
+  step="$target%"
+elif [[ $step == "1%-" ]]; then
+  target=$((current - 1))
   ((target < 1)) && target=1
   step="$target%"
 fi

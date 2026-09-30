@@ -2,7 +2,12 @@
 
 # Returns a formatted battery status string with percentage and power draw/charge.
 
-battery_info=$(upower -i $(upower -e | grep BAT))
+battery=$(upower -e | grep -m1 'battery_BAT')
+if [[ -z $battery ]]; then
+    echo "No battery"
+    exit 0
+fi
+battery_info=$(upower -i "$battery")
 
 percentage=$(echo "$battery_info" | awk '/percentage/ {
     print int($2)
@@ -37,6 +42,12 @@ capacity=$(echo "$battery_info" | awk '/energy-full:/ {
     printf "%d", $2
     exit
 }')
+
+# No time estimate when fully charged, held at a charge limit (pending-charge), or just (un)plugged
+if [[ -z $time_remaining ]]; then
+    echo "󰁹    Battery ${percentage}%  ·  ${state//-/ }  ·  ${capacity}Wh"
+    exit 0
+fi
 
 if [[ $state == "charging" ]]; then
     echo "󰁹    Battery ${percentage}%  ·  ${time_remaining} to full  ·   ${power_rate}W / ${capacity}Wh"

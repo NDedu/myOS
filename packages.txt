@@ -132,6 +132,7 @@ breeze-icons
 # Audio, brightness, media keys
 pipewire
 pipewire-pulse
+pipewire-alsa
 wireplumber
 brightnessctl
 playerctl

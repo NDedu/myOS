@@ -58,12 +58,12 @@
     "format": "\uf359",
     "on-click": "~/.config/hypr/scripts/menu.sh",
     "on-click-right": "~/.config/waybar/scripts/terminal.sh org.waybar.terminal",
-    "tooltip-format": "Menu\n\nSuper + Alt + Space"
+    "tooltip-format": "Menu\n\nSuper + Space"
   },
   // Image version of the logo: save an SVG or PNG as ~/.config/waybar/logo.svg (white, so it shows
   // on the dark bar), then replace "custom/logo" with "image#logo" in "modules-left"
   "image#logo": {
-    "exec": "echo \"$HOME/.config/waybar/logo.svg\"; echo 'Menu  Super + Alt + Space'",
+    "exec": "echo \"$HOME/.config/waybar/logo.svg\"; echo 'Menu  Super + Space'",
     "size": 16,
     "on-click": "~/.config/hypr/scripts/menu.sh"
   },

@@ -7,7 +7,7 @@ the script doesn't do. Run them on the NEW system, as a normal user (not root), 
     cd ~/myOS
     mkdir -p ~/.config
 
-Everything lands in the home folder, except the packages and services in section 1 and the optional sudo steps in section 9.
+Everything lands in the home folder, except the packages and services in section 1 and the optional sudo steps in sections 9 and 11.
 If a config already exists (for example ~/.config/hypr from Hyprland's first start), move it away
 first to keep a way back:
 
@@ -114,10 +114,11 @@ Default apps for each file type (folders open in yazi, videos in mpv, images in 
     cp mimeapps.list ~/.config/
 
 Folders open yazi in ghostty. The package's own yazi.desktop is Terminal=true, which needs a terminal
-nothing outside GNOME/KDE can find, so this entry (same name, so it wins) runs ghostty itself:
+nothing outside GNOME/KDE can find, so this entry (same name, so it wins) runs ghostty itself.
+nvim.desktop does the same for text files (xdg-open would start nvim with no window):
 
     mkdir -p ~/.local/share/applications
-    cp applications/yazi.desktop ~/.local/share/applications/
+    cp applications/yazi.desktop applications/nvim.desktop ~/.local/share/applications/
     update-desktop-database ~/.local/share/applications
 
     cp -r yazi ~/.config/yazi            # the yazi cheatsheet (cheatsheet.md)
@@ -265,10 +266,10 @@ CHANGING THINGS LATER
 Edit the copies in ~/.config, not this folder, and copy changes back here to keep them.
 
     Hyprland    ~/.config/hypr/modules/*.lua     hyprctl reload, then hyprctl configerrors
-    hypridle    ~/.config/hypr/hypridle.conf     pkill hypridle; hypridle &
+    hypridle    ~/.config/hypr/hypridle.conf     pkill hypridle; setsid -f uwsm-app -- hypridle >/dev/null 2>&1
     mako        ~/.config/mako/config            makoctl reload
     waybar      ~/.config/waybar/                ~/.config/waybar/scripts/restart-waybar.sh
     fuzzel      ~/.config/fuzzel/fuzzel.ini      next time it opens (check with: fuzzel --check-config)
-    swayosd     ~/.config/swayosd/               pkill swayosd-server; swayosd-server &
+    swayosd     ~/.config/swayosd/               pkill swayosd-server; setsid -f uwsm-app -- swayosd-server >/dev/null 2>&1
     ghostty     ~/.config/ghostty/config         new windows, or ctrl+shift+comma to reload
     bash        ~/.bashrc, ~/.config/bash/       new terminal

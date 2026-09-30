@@ -6,7 +6,8 @@ vim.keymap.set("n", "<leader>rw", function()
   local old = vim.fn.input("Search: ")
   if old == "" then return end
   local new = vim.fn.input("Replace with: ")
-  local cmd = "%s/\\<" .. vim.fn.escape(old, "/\\") .. "\\>/" .. vim.fn.escape(new, "/\\") .. "/gIc"
+  -- Literal text both ways: \V for the search, & and ~ escaped in the replacement
+  local cmd = "%s/\\V\\<" .. vim.fn.escape(old, "/\\") .. "\\>/" .. vim.fn.escape(new, "/\\&~") .. "/gIc"
   local ok, err = pcall(vim.cmd, cmd)
   if not ok then
     vim.notify("Pattern not found: " .. old, vim.log.levels.WARN)

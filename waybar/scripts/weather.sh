@@ -16,6 +16,8 @@ saved_location() {
 }
 
 # Tab-separated: place, temperature (°C), condition, wind (km/h), weather code, sunrise, sunset
+# Temperature, wind and code must be plain integers: the temperature goes through bash arithmetic,
+# which would run a command hidden in it.
 # Usage: fetch [location]   (no location: wttr.in picks it from the IP address)
 fetch() {
   local path
@@ -25,7 +27,9 @@ fetch() {
     [.nearest_area[0].areaName[0].value,
      (.current_condition[0] | .temp_C, (.weatherDesc[0].value | gsub("^\\s+|\\s+$"; "")), .windspeedKmph, .weatherCode),
      .weather[0].astronomy[0].sunrise, .weather[0].astronomy[0].sunset]
-    | select(all(. != null and . != "")) | @tsv' 2>/dev/null
+    | select(all(. != null and . != ""))
+    | select((.[1] | tostring | test("\\A-?(0|[1-9][0-9]*)\\z")) and all(.[3, 4]; tostring | test("\\A[0-9]+\\z")))
+    | @tsv' 2>/dev/null
 }
 
 # Material Design weather icons from the Nerd Font, written as escapes so editors and tools can't drop them

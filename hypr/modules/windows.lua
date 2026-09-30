@@ -28,7 +28,7 @@ o.window("xdg-desktop-portal-gtk", { tag = "+floating-window" })
 o.window("(xdg-desktop-portal-kde|org.freedesktop.impl.portal.desktop.kde)", { tag = "+floating-window" })
 o.window({
   class = "(sublime_text|DesktopEditors|org.gnome.Nautilus|org.kde.dolphin|org.kde.kdialog)",
-  title = "^(Open.*Files?|Open [F|f]older.*|Save.*Files?|Save.*As|Save|All Files|.*wants to [open|save].*|[C|c]hoose.*)",
+  title = "^(Open.*Files?|Open [Ff]older.*|Save.*Files?|Save.*As|Save|All Files|.*wants to (open|save).*|[Cc]hoose.*)",
 }, { tag = "+floating-window" })
 
 -- Dolphin's own dialogs (copy progress, properties, conflicts).

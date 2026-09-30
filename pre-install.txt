@@ -32,7 +32,7 @@ wl-clipboard
 hyprpicker
 fzf
 fd
-wireplumber and other pipewire (piperwire-alsa)
+wireplumber and other pipewire (pipewire-alsa)
 aquamarine
 hyprlang
 waybar
@@ -47,7 +47,7 @@ polkit-gnome/polkit-kde-agent -> pick polkit-gnome because it's already set (aut
 mako
 uwsm
 eza
-nmtui
+nmtui -> part of networkmanager
 wpa_supplicant
 bluez
 xdg-desktop-portal-hyprland
@@ -89,8 +89,8 @@ sudo ufw allow syncthing
 sudo ufw status numbered
 
 Install order:
-1. Arch, plus Ly and your 0.early.txt packages.
+1. Arch, plus Ly and your pre-install.txt packages.
 2. cd myOS && ./install.sh --packages
-3. Services from install.txt section1.
+3. Services from install.txt section 1.
 4. Optionally ./set_ufw.sh.
 5. Log in with Hyprland (uwsm-managed).

@@ -24,7 +24,7 @@ grep -v -e '^#' -e '^\s*$' packages.txt | sudo pacman -S --needed -
 | File manager (yazi, the default): previews for archives, PDFs and images | `yazi` `7zip` `poppler` `imagemagick` (`fd` `ripgrep` `fzf` `zoxide` above power its search and jump keys) |
 | Nautilus (windowed, on its own key): preview with Space, video thumbnails, phones, network shares | `nautilus` `sushi` `ffmpegthumbnailer` `gvfs-mtp` `gvfs-smb` `gvfs-nfs` |
 | Dolphin (kept, not the default) and icons | `dolphin` `kio-extras` `ffmpegthumbs` `kdegraphics-thumbnailers` `archlinux-xdg-menu` `gnome-themes-extra` `papirus-icon-theme` `breeze-icons` |
-| Audio, brightness, media keys | `pipewire` `pipewire-pulse` `wireplumber` `brightnessctl` `playerctl` |
+| Audio, brightness, media keys | `pipewire` `pipewire-pulse` `pipewire-alsa` `wireplumber` `brightnessctl` `playerctl` |
 | Power profiles, battery | `power-profiles-daemon` `upower` |
 | Btrfs snapshots (optional, btrfs only) | `snapper` — add `snap-pac` for pacman hooks; setup in install.txt section 11 |
 | Screenshots, annotation, OCR, QR codes, color picker, recording | `grim` `slurp` `satty` `hyprpicker` `wl-clipboard` `tesseract` `tesseract-data-eng` `zbar` `gpu-screen-recorder` `ffmpeg` `v4l-utils` |

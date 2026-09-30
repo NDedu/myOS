@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Show, set or step the focused monitor's scale; the new scale is saved to modules/monitors.lua
+# Show, set or step the focused monitor's scale; the new scale is remembered for that monitor
+# in ~/.local/state/hypr/monitor-scales (read by modules/monitors.lua)
 # Usage: monitor-scaling.sh [up|down|SCALE]
 
 source "$(dirname "$(readlink -f "$0")")/common.sh"
 
 SCALES=(1 1.25 1.33333 1.6 2 3 4)
-MONITORS_LUA="$HYPR_DIR/modules/monitors.lua"
+SCALES_FILE="$STATE_DIR/monitor-scales"
 
 # Hyprland only accepts scales where the mode divides into whole logical pixels
 # (in 1/120 steps), so round the requested scale up to the nearest clean value.
@@ -48,6 +49,7 @@ step_scale() {
 
 monitor=$(hyprctl monitors -j | jq -ec '.[] | select(.focused == true)') || exit 1
 name=$(jq -r '.name' <<<"$monitor")
+description=$(jq -r '.description // ""' <<<"$monitor")
 current=$(jq -r '.scale' <<<"$monitor")
 width=$(jq -r '.width' <<<"$monitor")
 height=$(jq -r '.height' <<<"$monitor")
@@ -76,14 +78,19 @@ esac
 
 hyprctl eval "hl.monitor({ output = \"$name\", mode = \"${width}x${height}@${refresh}\", position = \"auto\", scale = $scale })" >/dev/null
 
-# GTK only honors whole GDK_SCALE values
-gdk_scale=$(awk -v s="$scale" 'BEGIN { printf "%d", int(s + 0.5) }')
-
-if [[ -f $MONITORS_LUA ]]; then
-  sed -i -E \
-    -e "s|^local monitor_scale = .*|local monitor_scale = $scale|" \
-    -e "s|^local gdk_scale = .*|local gdk_scale = $gdk_scale|" \
-    "$(readlink -f "$MONITORS_LUA")"
+# Keyed by description so the scale follows the monitor to any port; the connector name
+# when there's no usable description. Replaces this monitor's previous line.
+description=${description% ($name)}
+if [[ -n $description && $description != *[[:cntrl:]]* ]]; then
+  output="desc:$description"
+else
+  output=$name
 fi
+
+mkdir -p "$STATE_DIR"
+{
+  [[ -f $SCALES_FILE ]] && key=$output awk -F'\t' '$1 != ENVIRON["key"]' "$SCALES_FILE"
+  printf '%s\t%s\n' "$output" "$scale"
+} >"$SCALES_FILE.tmp" && mv "$SCALES_FILE.tmp" "$SCALES_FILE"
 
 notify-send -u low "󰍹    Scale $scale on $name"

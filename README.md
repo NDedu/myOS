@@ -13,7 +13,7 @@ cd myOS
 ./install.sh --packages   # packages (pacman only) + configs, or ./install.sh for configs only
 ```
 
-**Running this will overwrites the configs already in place.**
+**Running this will overwrite the configs already in place.**
 **You may also want to change the logos waybar/logo.txt and hypr/screensaver.txt**, to use your own logo.
 
 To do it by hand, follow `install.txt`. It lists every copy command the script runs.
@@ -38,7 +38,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 
 | Keys | Action |
 | --- | --- |
-| SUPER + SPACE / SUPER + ALT + SPACE | Main menu / app launcher (fuzzle) |
+| SUPER + SPACE / SUPER + ALT + SPACE | Main menu / app launcher (fuzzel) |
 | SUPER + RETURN / SUPER + E | Terminal (in current dir) / ghostty |
 | SUPER + SHIFT + F | yazi (ALT: in the terminal's directory; CTRL: Nautilus instead) |
 | SUPER + SHIFT + B | Browser |
@@ -81,7 +81,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 | `nautilus/` | `~/.config/gtk-3.0/bookmarks`, dconf | Nautilus sidebar bookmarks and preferences (show hidden files, folders not sorted first) |
 | `dolphin/` | `~/.config/dolphinrc`, `kiorc`, `kdeglobals` | Dolphin settings (kept; Nautilus is the default), ghostty for "Open Terminal Here" (Shift+F4) |
 | `yazi/` | `~/.config/yazi` | The yazi cheatsheet (`cheatsheet.md`): its keys and how to use it |
-| `applications/` | `~/.local/share/applications` | `yazi.desktop`, so folders open yazi in ghostty (the package's own entry needs a terminal nothing here can find) |
+| `applications/` | `~/.local/share/applications` | `yazi.desktop` and `nvim.desktop`, so folders open yazi and text files nvim, in ghostty (the packages' own entries need a terminal nothing here can find) |
 | `mimeapps.list` | `~/.config/mimeapps.list` | Default apps: folders in yazi, videos in mpv, MP3 in VLC, images in imv, PDFs in Evince, web in Chromium |
 | `uwsm/` | `~/.config/uwsm` | Session environment (`TERMINAL`, `EDITOR`) |
 | `browser/` | `~/.config/chromium-flags.conf`, `brave-flags.conf` | Wayland flags, and passwords saved in gnome-keyring |
@@ -106,7 +106,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
    **hypridle** stays awake by default. SUPER + CTRL + I (or the coffee cup 󰅶 in the bar's drawer) allows idle: screensaver after 10 minutes, lock after 15. **hyprsunset** is the night light (SUPER + CTRL + N), off at every login.
 2. **Files**: **yazi** in ghostty (SUPER + SHIFT + F), also for folders opened from other apps. Its keys are in `yazi/cheatsheet.md`, and `~` inside yazi opens its help.
    **Nautilus** (SUPER + CTRL + SHIFT + F) has previews (Space), video thumbnails, phones and network shares, and shows hidden files. **Dolphin** stays available from "Open With".
-3. **Lock screen**: hyprlock on `hypr/lockW.png`, time and date at the top, password field at the bottom. SUPER + CTRL + L locks, and the displays turn off a minute later (any key wakes them). Locking before suspend and on lid close is commented out in `hypridle.conf` and `scripts/lid-close.sh`.
+3. **Lock screen**: hyprlock on `hypr/lockW.png`, time and date at the top, password field at the bottom. SUPER + CTRL + L locks, and the displays turn off a minute later (any key wakes them). It also locks before every suspend, from the menu or by closing the lid.
 4. **Terminal**: ghostty in the solitude palette, JetBrainsMonoNL Nerd Font 9. Bash with eza, zoxide, fzf, history search on arrows and git aliases, plus Starship, tmux and btop. The screensaver prints `screensaver.txt` on a black screen until a key is pressed.
 5. **Notifications**: mako, top right. SUPER + comma dismisses (SHIFT: all). SUPER + CTRL + comma or the bell (󰂛) toggles do not disturb, which still lets the desktop's own messages (reminders, screenshots, battery) through.
 6. **Power**: SUPER + ESCAPE opens the system menu (the power key too, after `install.txt` section 9). SUPER + CTRL + P or a click on the battery picks the power profile. A warning at 10% battery.

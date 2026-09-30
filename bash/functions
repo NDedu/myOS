@@ -25,7 +25,7 @@ lip() {
 
 # Wrap ssh to clean up the terminal and reconnect when a connection drops.
 #
-# A remote tmux, herdr, or editor arms terminal modes over the SSH pipe (mouse
+# A remote tmux or editor arms terminal modes over the SSH pipe (mouse
 # tracking, focus reporting, the alternate screen) that only it can disarm. If
 # the connection dies instead of exiting cleanly, those modes stay armed on the
 # local terminal, and every mouse move floods the prompt with escape junk.
@@ -149,31 +149,32 @@ ga() {
     return 1
   fi
 
-  local branch="$1"
-  local base="$(basename "$PWD")"
-  local wt_path="../${base}--${branch}"
+  local branch="$1" main
+  # The main checkout is listed first; worktrees go next to it, "/" in the branch becomes "-"
+  main="$(git worktree list --porcelain 2>/dev/null | sed -n '1s/^worktree //p')"
+  [[ -n $main ]] || { echo "Not in a git repository"; return 1; }
+  local wt_path="${main}--${branch//\//-}"
 
-  git worktree add -b "$branch" "$wt_path"
-  cd "$wt_path"
+  git worktree add -b "$branch" "$wt_path" && cd "$wt_path"
 }
 
 # Remove worktree and branch from within active worktree directory.
 gd() {
-  if gum confirm "Remove worktree and branch?"; then
-    local cwd base branch root worktree
+  local cwd main branch
 
-    cwd="$(pwd)"
-    worktree="$(basename "$cwd")"
+  cwd="$(git rev-parse --show-toplevel 2>/dev/null)" || { echo "Not in a git worktree"; return 1; }
+  main="$(git worktree list --porcelain | sed -n '1s/^worktree //p')"
+  branch="$(git branch --show-current)"
 
-    # split on first `--`
-    root="${worktree%%--*}"
-    branch="${worktree#*--}"
+  # Protect against nuking the main checkout
+  if [[ $cwd == "$main" ]]; then
+    echo "This is the main checkout, not a worktree"
+    return 1
+  fi
 
-    # Protect against accidentally nuking a non-worktree directory
-    if [[ "$root" != "$worktree" ]]; then
-      cd "../$root"
-      git worktree remove "$cwd" --force || return 1
-      git branch -D "$branch"
-    fi
+  if gum confirm "Remove worktree $(basename "$cwd") and branch ${branch:-(detached)}?"; then
+    cd "$main" || return 1
+    git worktree remove "$cwd" --force || return 1
+    [[ -n $branch ]] && git branch -D "$branch"
   fi
 }

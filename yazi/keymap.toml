@@ -7,5 +7,5 @@
 # "y" and "p" to copy files inside yazi.
 [[mgr.prepend_keymap]]
 on  = "y"
-run = [ 'shell -- for path in %s; do echo "file://$path"; done | wl-copy -t text/uri-list', "yank" ]
+run = [ '''shell -- jq -rn '$ARGS.positional[] | "file://" + (split("/") | map(@uri) | join("/"))' --args %s | wl-copy -t text/uri-list''', "yank" ]
 desc = "Yank selected files (copy), and to the system clipboard"

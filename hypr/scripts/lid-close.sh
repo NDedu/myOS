@@ -14,7 +14,8 @@ external_connected() {
 
 if external_connected; then
   "$SCRIPTS_DIR/monitor-internal.sh" off
-# Lock when the lid closes without an external monitor. Commented out: no automatic locking.
+# Without an external monitor, logind suspends and hypridle locks before sleep.
+# If lid close is ever set not to suspend (HandleLidSwitch=ignore), lock here instead:
 # else
 #   LOCK_ONLY=true "$SCRIPTS_DIR/lock.sh"
 fi
