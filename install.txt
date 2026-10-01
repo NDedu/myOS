@@ -43,12 +43,11 @@ See PACKAGES.md for what each package is for.
     ~/.config/hypr/hyprland.lua      main config, loads modules/
     ~/.config/hypr/modules/          envs, monitors, input, looks, theme, window rules, autostart, bindings
     ~/.config/hypr/hypridle.conf     idle: stay awake by default; allowed = screensaver 10 min, lock 15 min
-    ~/.config/hypr/hyprlock.conf     lock screen (time, date, password field)
-    ~/.config/hypr/lockW.png         lock screen wallpaper
+    ~/.config/hypr/hyprlock.conf     lock screen (logo, time, date, password field)
     ~/.config/hypr/hyprsunset.conf   nightlight
     ~/.config/hypr/xdph.conf         screen sharing portal
     ~/.config/hypr/wallpaper.jpeg    desktop wallpaper (file name set in scripts/wallpaper-reload.sh)
-    ~/.config/hypr/screensaver.txt   logo shown by the screensaver
+    ~/.config/hypr/screensaver.txt   logo shown by the screensaver and the lock screen
     ~/.config/hypr/scripts/          every script the config calls
 
 

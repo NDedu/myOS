@@ -26,5 +26,8 @@
 [rerere]
 	enabled = true           # Record and reuse conflict resolutions
 	autoupdate = true        # Apply stored conflict resolutions automatically
+[color "diff"]
+	old = "#B14242"          # Removed lines in red, added in orange (the ashen colors nvim uses):
+	new = "#D87C4A"          # the terminal palette's own red and green are greys
 # Name and email are not kept here: install.sh asks for them, or set them by hand with
 #   git config --file ~/.config/git/config user.name "..."

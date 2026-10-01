@@ -69,7 +69,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
    **hypridle** stays awake by default. SUPER + CTRL + I (or the coffee cup in the bar's drawer) allows idle: screensaver after 10 minutes, lock after 15. **hyprsunset** is the night light (SUPER + CTRL + N), off at every login.
 2. **Files**: **yazi** in ghostty (SUPER + SHIFT + F), also for folders opened from other apps. Its keys are in `yazi/cheatsheet.md`, and `~` inside yazi opens its help.
    **Nautilus** (SUPER + CTRL + SHIFT + F) has previews (Space), video thumbnails, phones and network shares, and shows hidden files. **Dolphin** stays available from "Open With".
-3. **Lock screen**: hyprlock on `hypr/lockW.png`, time and date at the top, password field at the bottom. SUPER + CTRL + L locks, and the displays turn off a minute later (any key wakes them). It also locks before every suspend, from the menu or by closing the lid.
+3. **Lock screen**: hyprlock on black with the logo in the middle (the same `screensaver.txt` as the screensaver), time and date at the top, password field at the bottom. SUPER + CTRL + L locks, and the displays turn off five minutes later (any key wakes them). It also locks before every suspend, from the menu or by closing the lid.
 4. **Terminal**: ghostty in the solitude palette, JetBrainsMonoNL Nerd Font 9. Bash with eza, zoxide, fzf, history search on arrows and git aliases, plus Starship, tmux and btop. The screensaver prints `screensaver.txt` on a black screen until a key is pressed.
 5. **Notifications**: mako, top right. SUPER + comma dismisses (SHIFT: all). SUPER + CTRL + comma or the bell toggles do not disturb, which still lets the desktop's own messages (reminders, screenshots, battery) through.
 6. **Power**: SUPER + ESCAPE opens the system menu (the power key too, after `install.txt` section 9). SUPER + CTRL + P or a click on the battery picks the power profile. A warning at 10% battery.
@@ -85,7 +85,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 - **Reminders**: SUPER + CTRL + R sets one (ALT: list, SHIFT: clear). They're systemd user timers, so they don't survive a reboot.
 - **XCompose**: Right Alt is the compose key. `Right Alt space n` types the name and `space e` the email.
 - **Also**: polkit agent for GUI password prompts, udiskie for USB automount.
-- **Logo**: `waybar/logo.txt` and `hypr/screensaver.txt` hold the same ASCII wordmark, so a new one replaces both.
+- **Logo**: `waybar/logo.txt` and `hypr/screensaver.txt` hold the same ASCII wordmark, so a new one replaces both. The screensaver and the lock screen both draw `screensaver.txt`.
 
 ### Hyprland config layout
 
