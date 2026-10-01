@@ -25,6 +25,6 @@ for file in config.jsonc style.css; do
 done
 
 # The style imports colors.css, so make sure a theme is present
-[[ -f $WAYBAR_DIR/colors.css ]] || cp "$WAYBAR_DIR/themes/vantablack.css" "$WAYBAR_DIR/colors.css"
+[[ -f $WAYBAR_DIR/colors.css ]] || cp "$WAYBAR_DIR/themes/solitude.css" "$WAYBAR_DIR/colors.css"
 
 "$SCRIPTS_DIR/restart-waybar.sh"

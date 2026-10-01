@@ -73,7 +73,7 @@ Customize `config.jsonc` and `style.css`, and leave `defaults/` untouched so the
   To use an image instead, save it as `logo.svg` in this folder (white, so it shows on the dark bar) and replace
   `custom/logo` with `image#logo` in `modules-left` of `config.jsonc`.
 - The update icon tracks pacman package updates (`checkupdates`).
-- Colors come from `colors.css` (Vantablack by default, see `themes/vantablack.css`). Switch with `scripts/theme-set.sh <name>`.
+- Colors come from `colors.css` (Solitude by default, see `themes/solitude.css`; `vantablack` is the pure black one). Switch with `scripts/theme-set.sh <name>`.
 - Terminals get the app-id `org.waybar.*`, which the window rules in `hyprland.lua` match.
 - Notification silencing supports mako, swaync and dunst. With mako, the config needs a
   `[mode=do-not-disturb]` section with `invisible=true`.
