@@ -14,7 +14,11 @@ fi
 # Unlock with the first keyboard layout
 hyprctl switchxkblayout all 0 >/dev/null 2>&1
 
-# Don't run the screensaver on top of the lock screen
+# Don't run the screensaver on top of the lock screen. Its closing animation is turned off first,
+# or it waits behind the lock and plays when the screen is unlocked
+for address in $(hyprctl clients -j | jq -r '.[] | select(.class == "org.hypr.screensaver") | .address'); do
+  hypr_dispatch "hl.dsp.window.set_prop({ window = \"address:$address\", prop = \"no_anim\", value = \"1\" })"
+done
 pkill -f '[o]rg.hypr.screensaver' 2>/dev/null
 
 # Turn the displays and keyboard backlight off five minutes after locking, so the panel isn't lit
