@@ -82,6 +82,11 @@ layout {
     }
 }
 
+// Around the workspaces in the overview: the bar's color (waybar/colors.css), so the two blend
+overview {
+    backdrop-color "#101315"
+}
+
 cursor {
     xcursor-size 24
     hide-when-typing
