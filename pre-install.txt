@@ -93,4 +93,4 @@ Install order:
 2. cd myOS && ./install.sh --packages
 3. Services from install.txt section 1.
 4. Optionally ./set_ufw.sh.
-5. Log in with Hyprland (uwsm-managed).
+5. Log in with Hyprland (uwsm-managed), or Niri.

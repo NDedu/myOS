@@ -10,8 +10,10 @@ timeout 600 '[ -f ~/.local/state/hypr/allow-idle ] && ! pidof swaylock >/dev/nul
 # Lock after 15 minutes. Opening the screensaver isn't activity for swayidle, so this still comes at 15
 timeout 900 '[ -f ~/.local/state/hypr/allow-idle ] && { pkill -f -- "--class=[o]rg.niri.screensaver"; swaylock; }'
 
-# Displays and keyboard backlight off five minutes into any lock, idle allowed or not
+# Displays and keyboard backlight off five minutes into any lock, idle allowed or not. Each timeout runs once
+# per idle stretch, so a lock while in use gets 300 and the idle lock at 15 minutes gets its own, 1200
 timeout 300 'pidof swaylock >/dev/null && { ~/.config/hypr/scripts/brightness-keyboard.sh off; niri msg action power-off-monitors; }' resume '~/.config/hypr/scripts/brightness-keyboard.sh restore'
+timeout 1200 'pidof swaylock >/dev/null && { ~/.config/hypr/scripts/brightness-keyboard.sh off; niri msg action power-off-monitors; }' resume '~/.config/hypr/scripts/brightness-keyboard.sh restore'
 
 # Lock before suspend; -w holds the suspend until swaylock has locked
 before-sleep 'pkill -f -- "--class=[o]rg.niri.screensaver"; swaylock'

@@ -1,12 +1,12 @@
 # Waybar
 
-A self-contained Waybar config: no external commands or environment variables, every script the
-bar calls is in `scripts/`.
+The bar of the myOS desktop. Its own scripts are in `scripts/`; the logo's menu, the night light and the
+reminders use the Hyprland setup's scripts (`~/.config/hypr/scripts/`). niri runs the same bar through
+`../niri/waybar.jsonc`.
 
 It works the other way round too: the Hyprland config in `../hypr` calls `scripts/launcher.sh`
 for every fuzzel menu (system, capture, toggle, reminders) and `scripts/power-profile-menu.sh`
 for SUPER + CTRL + P. Installing `hypr/` without this folder leaves those menus broken, so the two install together.
-Every script the bar calls lives in `scripts/`.
 
 ## Install
 

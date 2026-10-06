@@ -141,11 +141,11 @@ playerctl
 power-profiles-daemon
 upower
 
-# Btrfs snapshots (inert until configured: install.txt section 11)
+# Btrfs snapshots (inert until configured: install.txt section 12)
 snapper
 
 # Niri, the second session (pick Niri at the login screen, see niri/README.md):
-# X11 apps, screen sharing, lock screen, idle, night light, typing emojis
+# X11 apps, screen sharing, lock screen, idle, night light, typing emojis and the copy/paste keys
 niri
 xwayland-satellite
 xdg-desktop-portal-gnome
@@ -175,6 +175,7 @@ libsecret
 jq
 socat
 curl
+diffutils
 
 # Apps the keybindings and default file associations open
 obsidian

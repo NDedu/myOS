@@ -126,8 +126,8 @@ spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "udiskie" "--automount" "--no-notify" "--no-tray"
 
-// The Hyprland wallpaper, the same way (swaybg, fill)
-spawn-sh-at-startup "swaybg -i ~/.config/hypr/wallpaper.jpeg -m fill"
+// The Hyprland wallpaper, through the same script (the image and how it fits are set at its top)
+spawn-sh-at-startup "~/.config/hypr/scripts/wallpaper-reload.sh --quiet"
 
 // Idle, and locking before suspend: ~/.config/swayidle/config. -w holds a suspend until the screen is locked.
 // The lock screen is swaylock (~/.config/swaylock/config)
@@ -183,6 +183,20 @@ window-rule {
 // The terminals the bar opens (wifi, bluetooth, audio, btop, calendar, updates) float, as in Hyprland
 window-rule {
     match app-id=r#"^org\.waybar\."#
+    open-floating true
+    default-column-width { fixed 875; }
+    default-window-height { fixed 600; }
+}
+
+// Floating as in Hyprland (hypr/modules/windows.lua): password prompts, the calculator, the screenshot editor
+window-rule {
+    match app-id=r#"^(polkit-gnome-authentication-agent-1|gcr-prompter|gnome-calculator|org\.gnome\.Calculator|qalculate-gtk|com\.gabm\.satty)$"#
+    open-floating true
+}
+
+// Image and video viewers and control panels: floating at 875 x 600, as in Hyprland
+window-rule {
+    match app-id=r#"^(imv|mpv|org\.pulseaudio\.pavucontrol|blueman-manager|nm-connection-editor)$"#
     open-floating true
     default-column-width { fixed 875; }
     default-window-height { fixed 600; }

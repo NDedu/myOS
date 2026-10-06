@@ -7,7 +7,7 @@ the script doesn't do. Run them on the NEW system, as a normal user (not root), 
     cd ~/myOS
     mkdir -p ~/.config
 
-Everything lands in the home folder, except the packages and services in section 1 and the optional sudo steps in sections 9 and 11.
+Everything lands in the home folder, except the packages and services in section 1 and the optional sudo steps in sections 9 and 12.
 If a config already exists (for example ~/.config/hypr from Hyprland's first start), move it away
 first to keep a way back:
 
@@ -187,22 +187,36 @@ down (active after reboot). To use it, remove the leading "# " from each line.
     # printf '[Login]\nHandlePowerKey=ignore\n' | sudo tee /etc/systemd/logind.conf.d/10-ignore-power-button.conf
 
 
-10. LOG IN
+10. NIRI  (a second session, picked at the login screen)
+--------------------------------------------------------
+
+niri with its own keys and tools (swaylock, swayidle, its screenshots), the Hyprland look, and the same
+bar, notifications and launcher. Its packages are in packages.txt (section 1). niri/README.md has the details.
+
+    cp -r niri ~/.config/niri
+    chmod +x ~/.config/niri/scripts/*.sh
+    cp -r swaylock ~/.config/swaylock
+    cp -r swayidle ~/.config/swayidle
+
+
+11. LOG IN
 ----------
 
 Start Hyprland through uwsm, so apps get their own systemd scopes:
   - from a display manager: pick "Hyprland (uwsm-managed)"
   - from a TTY:             uwsm start hyprland.desktop
 
+Or pick "Niri" for the second session (from a TTY: niri-session).
+
 Then check:
 
-    hyprctl configerrors       # should print nothing
+    hyprctl configerrors       # should print nothing (in niri: niri validate)
     SUPER + K                  # every keybinding
     SUPER + SPACE              # main menu (SUPER + ALT + SPACE for the app launcher)
     SUPER + ESCAPE             # system menu (lock, suspend, restart, shutdown)
 
 
-11. SNAPSHOTS  (btrfs only, optional)
+12. SNAPSHOTS  (btrfs only, optional)
 -------------------------------------
 
 Only works if / is a btrfs subvolume. Check with: findmnt -no FSTYPE /
@@ -259,18 +273,6 @@ For the whole root, swap the subvolume from an Arch install USB:
 
 Reinstall the kernel afterwards if the snapshot predates a kernel update: pacman -S linux
 
-12. NIRI  (a second session, picked at the login screen)
-------------------------------------------------------
-
-niri with its own keys and tools (swaylock, swayidle, its screenshots), the Hyprland look, and the same
-bar, notifications and launcher. Its packages are in packages.txt (section 1). niri/README.md has the details.
-
-    cp -r niri ~/.config/niri
-    chmod +x ~/.config/niri/scripts/*.sh
-    cp -r swaylock ~/.config/swaylock
-    cp -r swayidle ~/.config/swayidle
-
-Then pick "Niri" in the display manager instead of Hyprland.
 
 CHANGING THINGS LATER
 ---------------------
@@ -285,4 +287,5 @@ Edit the copies in ~/.config, not this folder, and copy changes back here to kee
     swayosd     ~/.config/swayosd/               pkill swayosd-server; setsid -f uwsm-app -- swayosd-server >/dev/null 2>&1
     ghostty     ~/.config/ghostty/config         new windows, or ctrl+shift+comma to reload
     niri        ~/.config/niri/config.kdl        on save (check with: niri validate)
+    swayidle    ~/.config/swayidle/config        pkill -x swayidle; niri msg action spawn -- swayidle -w
     bash        ~/.bashrc, ~/.config/bash/       new terminal

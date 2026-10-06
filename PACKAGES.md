@@ -26,11 +26,11 @@ grep -v -e '^#' -e '^\s*$' packages.txt | sudo pacman -S --needed -
 | Dolphin (kept, not the default) and icons | `dolphin` `kio-extras` `ffmpegthumbs` `kdegraphics-thumbnailers` `archlinux-xdg-menu` `gnome-themes-extra` `papirus-icon-theme` `breeze-icons` |
 | Audio, brightness, media keys | `pipewire` `pipewire-pulse` `pipewire-alsa` `wireplumber` `brightnessctl` `playerctl` |
 | Power profiles, battery | `power-profiles-daemon` `upower` |
-| Niri, the second session (`niri/README.md`): X11 apps, screen sharing, lock screen, idle, night light, typing emojis | `niri` `xwayland-satellite` `xdg-desktop-portal-gnome` `swaylock` `swayidle` `wlsunset` `wtype` |
-| Btrfs snapshots (optional, btrfs only) | `snapper` — add `snap-pac` for pacman hooks; setup in install.txt section 11 |
+| Niri, the second session (`niri/README.md`): X11 apps, screen sharing, lock screen, idle, night light, typing emojis and the copy/paste keys | `niri` `xwayland-satellite` `xdg-desktop-portal-gnome` `swaylock` `swayidle` `wlsunset` `wtype` |
+| Btrfs snapshots (optional, btrfs only) | `snapper` — add `snap-pac` for pacman hooks; setup in install.txt section 12 |
 | Screenshots, annotation, OCR, QR codes, color picker, recording | `grim` `slurp` `satty` `hyprpicker` `wl-clipboard` `tesseract` `tesseract-data-eng` `zbar` `gpu-screen-recorder` `ffmpeg` `v4l-utils` |
 | Password storage (gnome-keyring) | `gnome-keyring` `libsecret` |
-| Script helpers | `jq` `socat` `curl` |
+| Script helpers | `jq` `socat` `curl` `diffutils` |
 | Apps opened by bindings and default file types | `obsidian` `zed` `lazydocker` `vlc` `udiskie` `gnome-calculator` `calcurse` `imv` `mpv` `evince` `chromium` |
 | Other apps | `firefox` `flatpak` `gparted` `pinta` `xarchiver` |
 

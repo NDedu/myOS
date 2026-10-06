@@ -1,6 +1,6 @@
 # myOS
 
-My Hyprland desktop on a plain Arch install: Hyprland and Niri, Waybar, yazi, mako, fuzzel, ghostty.
+My desktop on a plain Arch install: Hyprland and Niri, Waybar, yazi, mako, fuzzel, ghostty.
 This config is a blend of my own old hyprland config and some Omarchy configs (solitude theme) I liked while using it from 3.0 to 4.0.
 Minimal install (with some devtools for myself), only pacman. Every script these configs call is in this folder.
 

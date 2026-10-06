@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Install the myOS desktop (Hyprland, Waybar and the rest of these configs) on a fresh Arch system.
+# Install the myOS desktop (Hyprland, niri, Waybar and the rest of these configs) on a fresh Arch system.
 # Usage: ./install.sh              copy configs into place (existing ones are backed up)
 #        ./install.sh --packages   install packages.txt with pacman first
 # Prefer doing it by hand? See install.txt.
@@ -188,8 +188,12 @@ step "Power"
 if has_battery; then
   mkdir -p "$config/systemd/user"
   cp "$src"/systemd/user/battery-monitor.* "$config/systemd/user/"
-  systemctl --user daemon-reload
-  systemctl --user enable --now battery-monitor.timer >/dev/null 2>&1 && echo "  Enabled low battery notifications"
+  # Needs the user's systemd (a normal login); from a chroot or root shell the timer is left for later
+  if systemctl --user daemon-reload 2>/dev/null && systemctl --user enable --now battery-monitor.timer >/dev/null 2>&1; then
+    echo "  Enabled low battery notifications"
+  else
+    echo "  No user systemd here: after logging in, run systemctl --user enable --now battery-monitor.timer"
+  fi
 else
   echo "  No battery: skipping the low battery warning"
 fi
@@ -212,7 +216,8 @@ fi
 cat <<EOF
 
 Done. Log in to Hyprland through uwsm (pick "Hyprland (uwsm-managed)" in the display manager,
-or run: uwsm start hyprland.desktop). Press SUPER + K to see every keybinding.
+or run: uwsm start hyprland.desktop), or pick "Niri" for the second session.
+Press SUPER + K to see every keybinding.
 
 Optional extras (passwordless keyring, power key menu) are in install.txt.
 EOF

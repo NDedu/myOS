@@ -38,7 +38,7 @@ niri reloads `config.kdl` on save. Check it with `niri validate`.
 | Screen recording | Menu > Capture > Screenrecord, picked through the screen sharing portal | slurp picker |
 | Bar | `waybar.jsonc`: the Hyprland bar with niri's workspaces | `waybar/config.jsonc` |
 | Menu (the bar's logo) | `scripts/menu.sh` | `hypr/scripts/menu.sh` |
-| Wallpaper | swaybg with `hypr/wallpaper.jpeg` | the same |
+| Wallpaper | `hypr/scripts/wallpaper-reload.sh` (swaybg with `hypr/wallpaper.jpeg`), at login and on Super + Ctrl + Space | the same |
 | Night light | wlsunset at 4000K (`scripts/nightlight.sh`): the bar's moon, Toggle > Nightlight | hyprsunset |
 | Volume and brightness keys | niri's 10% steps with the SwayOSD pop-up | 5% steps, SwayOSD |
 | Emojis | typed into the window with wtype, and on the clipboard | pasted |
@@ -48,7 +48,7 @@ niri reloads `config.kdl` on save. Check it with `niri validate`.
 `~/.config/waybar` (config, style, scripts), mako, fuzzel, SwayOSD, ghostty (with its screensaver profile),
 `hypr/wallpaper.jpeg`, `hypr/screensaver.txt` and these scripts from `hypr/scripts/`: `clipboard.sh`, `ocr.sh`,
 `qr.sh`, `reminder.sh`, `wallpaper-reload.sh`, `brightness-keyboard.sh`, `launch-browser.sh`, `launch-editor.sh`,
-`notify-time.sh`.
+`launch-file-manager.sh`, `notify-time.sh`.
 "Allow idle" (the coffee cup) and "Suspend in System Menu" are one setting for both sessions.
 
 ## Keys

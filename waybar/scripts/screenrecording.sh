@@ -294,5 +294,5 @@ if screenrecording_active; then
 elif [[ $STOP_RECORDING == "true" ]]; then
   exit 1
 else
-  start_screenrecording || cleanup_webcam
+  start_screenrecording "$@" || cleanup_webcam
 fi
