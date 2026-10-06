@@ -1,0 +1,21 @@
+# Idle in niri (started by ~/.config/niri/config.kdl with swayidle -w). Hyprland uses hypridle instead.
+# Stay awake by default, as in Hyprland: the screensaver and the idle lock only come while idle is allowed
+# (the bar's coffee cup: ~/.local/state/hypr/allow-idle, the same setting in both sessions).
+# Every lock closes the screensaver first, so it isn't left waiting behind the lock.
+# Events: man swayidle. Every command runs in a shell.
+
+# Screensaver after 10 minutes, as in Hyprland: the logo until a key is pressed, no password needed
+timeout 600 '[ -f ~/.local/state/hypr/allow-idle ] && ! pidof swaylock >/dev/null && ~/.config/niri/scripts/launch-screensaver.sh'
+
+# Lock after 15 minutes. Opening the screensaver isn't activity for swayidle, so this still comes at 15
+timeout 900 '[ -f ~/.local/state/hypr/allow-idle ] && { pkill -f -- "--class=[o]rg.niri.screensaver"; swaylock; }'
+
+# Displays and keyboard backlight off five minutes into any lock, idle allowed or not
+timeout 300 'pidof swaylock >/dev/null && { ~/.config/hypr/scripts/brightness-keyboard.sh off; niri msg action power-off-monitors; }' resume '~/.config/hypr/scripts/brightness-keyboard.sh restore'
+
+# Lock before suspend; -w holds the suspend until swaylock has locked
+before-sleep 'pkill -f -- "--class=[o]rg.niri.screensaver"; swaylock'
+after-resume '~/.config/hypr/scripts/brightness-keyboard.sh restore'
+
+# loginctl lock-session
+lock 'pkill -f -- "--class=[o]rg.niri.screensaver"; swaylock'

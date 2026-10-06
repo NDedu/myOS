@@ -259,6 +259,19 @@ For the whole root, swap the subvolume from an Arch install USB:
 
 Reinstall the kernel afterwards if the snapshot predates a kernel update: pacman -S linux
 
+12. NIRI  (a second session, picked at the login screen)
+------------------------------------------------------
+
+niri with its own keys and tools (swaylock, swayidle, its screenshots), the Hyprland look, and the same
+bar, notifications and launcher. Its packages are in packages.txt (section 1). niri/README.md has the details.
+
+    cp -r niri ~/.config/niri
+    chmod +x ~/.config/niri/scripts/*.sh
+    cp -r swaylock ~/.config/swaylock
+    cp -r swayidle ~/.config/swayidle
+
+Then pick "Niri" in the display manager instead of Hyprland.
+
 CHANGING THINGS LATER
 ---------------------
 
@@ -271,4 +284,5 @@ Edit the copies in ~/.config, not this folder, and copy changes back here to kee
     fuzzel      ~/.config/fuzzel/fuzzel.ini      next time it opens (check with: fuzzel --check-config)
     swayosd     ~/.config/swayosd/               pkill swayosd-server; setsid -f uwsm-app -- swayosd-server >/dev/null 2>&1
     ghostty     ~/.config/ghostty/config         new windows, or ctrl+shift+comma to reload
+    niri        ~/.config/niri/config.kdl        on save (check with: niri validate)
     bash        ~/.bashrc, ~/.config/bash/       new terminal

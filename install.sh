@@ -83,6 +83,12 @@ chmod +x "$config/hypr/scripts/"*.sh
 step "Waybar"
 INSTALL_STAMP="$stamp" bash "$src/waybar/install.sh"
 
+step "Niri, the second session (config, scripts, swaylock, swayidle)"
+install_path niri "$config/niri"
+chmod +x "$config/niri/scripts/"*.sh
+install_path swaylock "$config/swaylock"
+install_path swayidle "$config/swayidle"
+
 step "Notifications, OSD, launcher"
 install_path mako "$config/mako"
 install_path swayosd "$config/swayosd"

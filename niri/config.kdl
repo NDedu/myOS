@@ -1,0 +1,532 @@
+// Niri session: niri's own keys and tools (swaylock, swayidle, its screenshots) with the Hyprland setup's
+// look (solitude colors, border, rounding, gaps, scale) and apps (ghostty, fuzzel, waybar, mako, swaybg).
+// The niri-only files are this folder, ~/.config/swaylock and ~/.config/swayidle; the shared parts are the
+// Hyprland setup's own files, used as they are. Niri reloads this file on save; check it with: niri validate
+// All options: https://niri-wm.github.io/niri/Configuration:-Introduction
+
+input {
+    keyboard {
+        // Right Alt is the compose key (~/.XCompose), as in Hyprland. With this block filled in, niri
+        // stops reading the layout from localectl, so the layout is set here too
+        xkb {
+            layout "us"
+            options "compose:ralt"
+        }
+
+        repeat-delay 250
+        repeat-rate 40
+        numlock
+    }
+
+    // As in Hyprland: tap to click, two-finger click for the right button, no natural scrolling,
+    // slower scrolling, touchpad off while typing
+    touchpad {
+        tap
+        dwt
+        click-method "clickfinger"
+        scroll-factor 0.4
+    }
+
+    // The window under the mouse gets the focus, unless that would scroll the view to reach it
+    focus-follows-mouse max-scroll-amount="0%"
+}
+
+// The laptop display at 1.33, like Hyprland (hypr/modules/monitors.lua). Other monitors get niri's own guess;
+// list them with: niri msg outputs
+output "eDP-1" {
+    scale 1.333333
+}
+
+// Workspaces 1-5 always exist and keep their number, like Hyprland's (the bar shows them too).
+// Anything past them is niri's own: created as needed, gone when empty, with one empty one at the end
+workspace "1"
+workspace "2"
+workspace "3"
+workspace "4"
+workspace "5"
+
+layout {
+    // Hyprland's 5 inside and 10 outside: 10 between windows and to the screen edges
+    gaps 10
+
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5; }
+
+    // The solitude border from hypr/modules/theme.lua instead of niri's focus ring
+    focus-ring {
+        off
+    }
+
+    border {
+        on
+        width 2
+        active-gradient from="#798186ee" to="#caccccee" angle=45
+        inactive-color "#1e1e1e"
+        urgent-color "#de6145"
+    }
+
+    // Where a dragged window will land
+    insert-hint {
+        color "#79818680"
+    }
+}
+
+cursor {
+    xcursor-size 24
+    hide-when-typing
+    // Also after a minute without mouse movement, so it doesn't sit on the screensaver
+    hide-after-inactive-ms 60000
+}
+
+// No title bars drawn by the apps, as in Hyprland
+prefer-no-csd
+
+// Same folder and names as the Hyprland screenshots
+screenshot-path "~/Pictures/screenshot-%Y-%m-%d_%H-%M-%S.png"
+
+// What Hyprland sets in hypr/modules/envs.lua and uwsm/default, for the apps niri starts
+environment {
+    TERMINAL "ghostty"
+    EDITOR "nvim"
+    // Qt apps (Dolphin) follow the GTK theme, and Dolphin's "Open With" list finds the apps
+    QT_QPA_PLATFORMTHEME "gtk3"
+    XDG_MENU_PREFIX "arch-"
+    ELECTRON_OZONE_PLATFORM_HINT "wayland"
+    // gum prompts (timezone picker, update terminal) in the solitude colors
+    GUM_CONFIRM_PROMPT_FOREGROUND "#798186"
+    GUM_CONFIRM_SELECTED_FOREGROUND "#a5aeb4"
+    GUM_CONFIRM_SELECTED_BACKGROUND "#343d41"
+    GUM_CONFIRM_UNSELECTED_FOREGROUND "#cacccc"
+    GUM_CONFIRM_UNSELECTED_BACKGROUND "#101315"
+    GUM_CHOOSE_CURSOR_FOREGROUND "#798186"
+    GUM_CHOOSE_SELECTED_FOREGROUND "#a5aeb4"
+    GUM_FILTER_PROMPT_FOREGROUND "#798186"
+    GUM_FILTER_MATCH_FOREGROUND "#798186"
+    GUM_FILTER_INDICATOR_FOREGROUND "#798186"
+    GUM_SPIN_SPINNER_FOREGROUND "#798186"
+}
+
+// Started with the session, as in Hyprland (hypr/modules/autostart.lua): the bar, notifications, the volume and
+// brightness pop-up, password prompts, clipboard history (text only) and USB automount
+spawn-sh-at-startup "~/.config/niri/scripts/waybar.sh"
+spawn-at-startup "mako"
+spawn-at-startup "swayosd-server"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
+spawn-at-startup "udiskie" "--automount" "--no-notify" "--no-tray"
+
+// The Hyprland wallpaper, the same way (swaybg, fill)
+spawn-sh-at-startup "swaybg -i ~/.config/hypr/wallpaper.jpeg -m fill"
+
+// Idle, and locking before suspend: ~/.config/swayidle/config. -w holds a suspend until the screen is locked.
+// The lock screen is swaylock (~/.config/swaylock/config)
+spawn-at-startup "swayidle" "-w"
+
+// A window opening on an empty workspace takes the full width (scripts/maximize-first.sh); Super + Alt + F toggles it
+spawn-sh-at-startup "~/.config/niri/scripts/maximize-first.sh"
+
+// Rounded corners on every window, 6 px like Hyprland
+window-rule {
+    geometry-corner-radius 6
+    clip-to-geometry true
+}
+
+// Slightly see-through windows, as in Hyprland (hypr/modules/windows.lua): 0.985, or 0.96 when not active.
+// Super + Backspace turns it off for one window
+window-rule {
+    opacity 0.985
+}
+
+window-rule {
+    match is-active=false
+    opacity 0.96
+}
+
+// Browsers: opaque while active
+window-rule {
+    match app-id=r#"((google-)?[cC]hrom(e|ium)|[bB]rave-browser|[mM]icrosoft-edge|Vivaldi-stable|helium|[fF]irefox|zen|librewolf)"#
+    opacity 1.0
+}
+
+window-rule {
+    match app-id=r#"((google-)?[cC]hrom(e|ium)|[bB]rave-browser|[mM]icrosoft-edge|Vivaldi-stable|helium|[fF]irefox|zen|librewolf)"# is-active=false
+    opacity 0.985
+}
+
+// Video, images, games and picture-in-picture: always opaque
+window-rule {
+    match app-id=r#"^(zoom|vlc|mpv|org\.kde\.kdenlive|com\.obsproject\.Studio|com\.github\.PintaProject\.Pinta|imv|org\.gnome\.NautilusPreviewer|org\.kde\.gwenview|org\.kde\.okular|com\.libretro\.RetroArch)$"#
+    match app-id="qemu"
+    match app-id="^steam"
+    match title="Picture.?in.?[Pp]icture"
+    opacity 1.0
+}
+
+// The screensaver (scripts/launch-screensaver.sh): fullscreen and opaque
+window-rule {
+    match app-id=r#"^org\.niri\.screensaver$"#
+    open-fullscreen true
+    opacity 1.0
+}
+
+// The terminals the bar opens (wifi, bluetooth, audio, btop, calendar, updates) float, as in Hyprland
+window-rule {
+    match app-id=r#"^org\.waybar\."#
+    open-floating true
+    default-column-width { fixed 875; }
+    default-window-height { fixed 600; }
+}
+
+// Kept out of screen sharing and screenshots, as in Hyprland (no_screen_share)
+window-rule {
+    match app-id="^Bitwarden$"
+    block-out-from "screen-capture"
+}
+
+// niri's own defaults: WezTerm's first-configure bug, Firefox picture-in-picture floating
+window-rule {
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// niri's default keys, with Hyprland's where the two clash (Super + W, T, F, K, C, V, Escape...), then the rest of
+// the Hyprland keys at the end. Mod is Super. Super + K searches all of them (a key's comment is its description
+// there); Mod + Shift + / shows niri's main ones
+binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // Floating on/off, as in Hyprland; the terminal is on Super + Return and Super + E
+    Mod+T { toggle-window-floating; }
+    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+
+    // Screen reader
+    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; } // Screen reader
+
+    // Volume (up to 100%), media and brightness keys, also on the lock screen. Volume and brightness in niri's
+    // 10% steps, with the SwayOSD pop-up as in Hyprland
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "~/.config/niri/scripts/osd.sh --output-volume +10"; } // Volume up
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "~/.config/niri/scripts/osd.sh --output-volume -10"; } // Volume down
+    XF86AudioMute        allow-when-locked=true { spawn-sh "~/.config/niri/scripts/osd.sh --output-volume mute-toggle"; } // Mute
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "~/.config/niri/scripts/osd.sh --input-volume mute-toggle"; } // Mute microphone
+
+    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; } // Play / pause
+    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; } // Stop
+    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; } // Previous track
+    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; } // Next track
+
+    XF86MonBrightnessUp allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh +10%"; } // Brightness up
+    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh 10%-"; } // Brightness down
+
+    // Overview of all workspaces and windows: Super + A or O, the top-left hot corner, or a four-finger swipe up
+    Mod+O repeat=false { toggle-overview; }
+    Mod+A repeat=false { toggle-overview; }
+
+    Mod+Q repeat=false { close-window; }
+
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-window-down; }
+    Mod+Up    { focus-window-up; }
+    Mod+Right { focus-column-right; }
+    Mod+H     { focus-column-left; }
+    Mod+J     { focus-window-down; }
+    Mod+K     { spawn-sh "~/.config/niri/scripts/keybindings.sh"; } // Keybindings
+    Mod+L     { focus-column-right; }
+
+    Mod+Ctrl+Left  { move-column-left; }
+    Mod+Ctrl+Down  { move-window-down; }
+    Mod+Ctrl+Up    { move-window-up; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+H     { move-column-left; }
+    Mod+Ctrl+J     { move-window-down; }
+    Mod+Ctrl+K     { move-window-up; }
+    Mod+Ctrl+L     { spawn "swaylock"; } // Lock system
+
+    Mod+Home { focus-column-first; }
+    Mod+End  { focus-column-last; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+End  { move-column-to-last; }
+
+    // Super + Shift + arrows move windows like Super + Ctrl + arrows, as in Hyprland. Other monitors:
+    // Super + Shift + H/J/K/L, or Ctrl + Alt + Tab
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Down  { move-window-down; }
+    Mod+Shift+Up    { move-window-up; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+H     { focus-monitor-left; }
+    Mod+Shift+J     { focus-monitor-down; }
+    Mod+Shift+K     { focus-monitor-up; }
+    Mod+Shift+L     { focus-monitor-right; }
+
+    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
+
+    Mod+Page_Down      { focus-workspace-down; }
+    Mod+Page_Up        { focus-workspace-up; }
+    Mod+U              { focus-workspace-down; }
+    Mod+I              { focus-workspace-up; }
+    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
+    Mod+Ctrl+U         { move-column-to-workspace-down; }
+    Mod+Ctrl+I         { spawn-sh "~/.config/niri/scripts/idle.sh"; } // Toggle stay awake / idle lock and screensaver
+
+    Mod+Shift+Page_Down { move-workspace-down; }
+    Mod+Shift+Page_Up   { move-workspace-up; }
+    Mod+Shift+U         { move-workspace-down; }
+    Mod+Shift+I         { move-workspace-up; }
+
+    // Mouse wheel, rate-limited so workspaces don't fly by
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+
+    Mod+WheelScrollRight      { focus-column-right; }
+    Mod+WheelScrollLeft       { focus-column-left; }
+    Mod+Ctrl+WheelScrollRight { move-column-right; }
+    Mod+Ctrl+WheelScrollLeft  { move-column-left; }
+
+    // Shift + wheel scrolls sideways
+    Mod+Shift+WheelScrollDown      { focus-column-right; }
+    Mod+Shift+WheelScrollUp        { focus-column-left; }
+    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
+    Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
+
+    // Workspaces 1-5 by name, so they are always the same ones. 6-9 (and 0 for 10) count from the top:
+    // a number past the last workspace goes to the empty one at the end
+    Mod+1 { focus-workspace "1"; }
+    Mod+2 { focus-workspace "2"; }
+    Mod+3 { focus-workspace "3"; }
+    Mod+4 { focus-workspace "4"; }
+    Mod+5 { focus-workspace "5"; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+0 { focus-workspace 10; }
+    // Super + Ctrl moves the whole column (niri), Super + Shift only the window (Hyprland);
+    // with Alt it stays behind, without the focus following it
+    Mod+Ctrl+1 { move-column-to-workspace "1"; }
+    Mod+Ctrl+2 { move-column-to-workspace "2"; }
+    Mod+Ctrl+3 { move-column-to-workspace "3"; }
+    Mod+Ctrl+4 { move-column-to-workspace "4"; }
+    Mod+Ctrl+5 { move-column-to-workspace "5"; }
+    Mod+Ctrl+6 { move-column-to-workspace 6; }
+    Mod+Ctrl+7 { move-column-to-workspace 7; }
+    Mod+Ctrl+8 { move-column-to-workspace 8; }
+    Mod+Ctrl+9 { move-column-to-workspace 9; }
+    Mod+Shift+1 { move-window-to-workspace "1"; }
+    Mod+Shift+2 { move-window-to-workspace "2"; }
+    Mod+Shift+3 { move-window-to-workspace "3"; }
+    Mod+Shift+4 { move-window-to-workspace "4"; }
+    Mod+Shift+5 { move-window-to-workspace "5"; }
+    Mod+Shift+6 { move-window-to-workspace 6; }
+    Mod+Shift+7 { move-window-to-workspace 7; }
+    Mod+Shift+8 { move-window-to-workspace 8; }
+    Mod+Shift+9 { move-window-to-workspace 9; }
+    Mod+Shift+0 { move-window-to-workspace 10; }
+    Mod+Shift+Alt+1 { move-window-to-workspace "1" focus=false; }
+    Mod+Shift+Alt+2 { move-window-to-workspace "2" focus=false; }
+    Mod+Shift+Alt+3 { move-window-to-workspace "3" focus=false; }
+    Mod+Shift+Alt+4 { move-window-to-workspace "4" focus=false; }
+    Mod+Shift+Alt+5 { move-window-to-workspace "5" focus=false; }
+    Mod+Shift+Alt+6 { move-window-to-workspace 6 focus=false; }
+    Mod+Shift+Alt+7 { move-window-to-workspace 7 focus=false; }
+    Mod+Shift+Alt+8 { move-window-to-workspace 8 focus=false; }
+    Mod+Shift+Alt+9 { move-window-to-workspace 9 focus=false; }
+    Mod+Shift+Alt+0 { move-window-to-workspace 10 focus=false; }
+
+    // A window alone joins the column beside it; a window in a column leaves it
+    Mod+BracketLeft  { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+
+    // Push the bottom window of this column out to the right. Super + Comma dismisses notifications, as in Hyprland
+    Mod+Comma  { spawn "makoctl" "dismiss"; } // Dismiss last notification
+    Mod+Period { expel-window-from-column; }
+
+    // Column widths: 1/3, 1/2, 2/3
+    Mod+R { switch-preset-column-width; }
+    Mod+Shift+R { switch-preset-column-width-back; }
+
+    // Reminders, as in Hyprland (Super + Shift + Minus / Equal still change a window's height)
+    Mod+Ctrl+R { spawn-sh "~/.config/hypr/scripts/reminder.sh set"; } // Set reminder
+    Mod+Ctrl+Shift+R { spawn-sh "~/.config/hypr/scripts/reminder.sh clear"; } // Clear reminders
+
+    // As in Hyprland: fullscreen, yazi, and fullscreen inside the tile (the app thinks it's fullscreen).
+    // Full width is Super + Alt + F
+    Mod+F { fullscreen-window; }
+    Mod+Shift+F { spawn-sh "~/.config/hypr/scripts/launch-file-manager.sh"; } // File manager (yazi)
+    Mod+Ctrl+F { toggle-windowed-fullscreen; }
+
+    // Maximized to the screen edges, without gaps or border (like double-clicking a title bar)
+    Mod+M { maximize-window-to-edges; }
+
+    // Fill the space the other fully visible columns leave
+    Mod+Ctrl+Alt+F { expand-column-to-available-width; }
+
+    // Centering, moved off Super + C and Super + Ctrl + C (copy and the capture menu, as in Hyprland)
+    Mod+Alt+C { center-column; }
+    Mod+Ctrl+Alt+C { center-visible-columns; }
+
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // Floating on/off is Super + T; Super + V is paste
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+
+    // Close, as in Hyprland (also Super + Q). A column's tabs are on Super + G
+    Mod+W { close-window; }
+
+    // niri's screenshot tool: drag a region and press Space to save it (P shows the pointer), or the whole
+    // screen, or the window. Saved to ~/Pictures and copied to the clipboard
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    // Escape hatch for apps that grab every key (remote desktops). Super + Escape is the system menu
+    Mod+Shift+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // Log out, after a confirmation
+    Mod+Shift+E { quit; }
+    Ctrl+Alt+Delete { quit; }
+
+    // Displays off until the next key or mouse movement
+    Mod+Shift+P { power-off-monitors; }
+
+    // The myOS keys from Hyprland, on keys niri leaves free
+    Mod+Space hotkey-overlay-title="Main Menu" { spawn-sh "~/.config/niri/scripts/menu.sh"; }
+    Mod+Ctrl+V hotkey-overlay-title="Clipboard History" { spawn-sh "~/.config/hypr/scripts/clipboard.sh"; }
+    Mod+Ctrl+E hotkey-overlay-title="Emojis" { spawn-sh "~/.config/niri/scripts/emoji.sh"; }
+    Mod+BackSpace hotkey-overlay-title="Toggle Window Transparency" { toggle-window-rule-opacity; }
+
+    // Universal copy, paste and cut: Ctrl + C / V / X in apps, Ctrl / Shift + Insert in terminals
+    Mod+C { spawn-sh "~/.config/niri/scripts/universal-clipboard.sh copy"; } // Universal copy
+    Mod+V { spawn-sh "~/.config/niri/scripts/universal-clipboard.sh paste"; } // Universal paste
+    Mod+X { spawn-sh "~/.config/niri/scripts/universal-clipboard.sh cut"; } // Universal cut
+
+    // Apps, as in Hyprland. The terminal, tmux and yazi (Alt + Shift + F) open in the focused terminal's directory
+    Mod+Return hotkey-overlay-title="Open a Terminal: ghostty" { spawn-sh r#"ghostty --working-directory="$(~/.config/niri/scripts/terminal-cwd.sh)""#; }
+    Mod+E { spawn "ghostty"; } // Terminal (ghostty)
+    Mod+Alt+Return { spawn-sh r#"ghostty --working-directory="$(~/.config/niri/scripts/terminal-cwd.sh)" -e bash -c 'tmux attach || tmux new -s Work'"#; } // Tmux
+    Mod+Shift+Return { spawn-sh "~/.config/hypr/scripts/launch-browser.sh"; } // Browser
+    Mod+Shift+B { spawn-sh "~/.config/hypr/scripts/launch-browser.sh"; } // Browser
+    Mod+Shift+Alt+B { spawn-sh "~/.config/hypr/scripts/launch-browser.sh --private"; } // Browser (private)
+    Mod+Shift+Alt+F { spawn-sh r#"ghostty --class=org.hypr.yazi -e yazi "$(~/.config/niri/scripts/terminal-cwd.sh)""#; } // File manager (yazi, cwd)
+    Mod+Ctrl+Shift+F { spawn "nautilus" "--new-window"; } // File manager (Nautilus)
+    Mod+Shift+N { spawn-sh "~/.config/hypr/scripts/launch-editor.sh"; } // Editor
+    Mod+Shift+D { spawn-sh "~/.config/niri/scripts/launch-or-focus-tui.sh lazydocker"; } // Docker
+    Mod+Shift+O { spawn-sh "~/.config/niri/scripts/launch-or-focus.sh '^obsidian$' obsidian"; } // Obsidian
+    Mod+Alt+Space { spawn-sh "~/.config/waybar/scripts/launcher.sh"; } // App launcher
+    Mod+Ctrl+Q { spawn "gnome-calculator"; } // Calculator
+    XF86Calculator { spawn "gnome-calculator"; } // Calculator
+
+    // Menus and control panels. Super + Shift + F23 is the Copilot key
+    Mod+Shift+F23 { spawn-sh "~/.config/niri/scripts/menu.sh"; } // Main menu
+    Mod+Escape { spawn-sh "~/.config/niri/scripts/menu.sh system"; } // System menu
+    Mod+Ctrl+C { spawn-sh "~/.config/niri/scripts/menu.sh capture"; } // Capture menu
+    Mod+Ctrl+O { spawn-sh "~/.config/niri/scripts/menu.sh toggle"; } // Toggle menu
+    Mod+Ctrl+A { spawn-sh "~/.config/niri/scripts/launch-or-focus-tui.sh wiremix"; } // Audio
+    Mod+Ctrl+B { spawn-sh "rfkill unblock bluetooth; ~/.config/niri/scripts/launch-or-focus-tui.sh bluetui"; } // Bluetooth
+    Mod+Ctrl+W { spawn-sh "rfkill unblock wifi; ~/.config/niri/scripts/launch-or-focus-tui.sh nmtui"; } // Network
+    Mod+Ctrl+P { spawn-sh "~/.config/waybar/scripts/power-profile-menu.sh"; } // Power profile
+    Mod+Ctrl+T { spawn-sh "~/.config/niri/scripts/launch-or-focus-tui.sh btop"; } // Activity
+
+    // Toggles, notifications, wallpaper
+    Mod+Ctrl+N { spawn-sh "~/.config/niri/scripts/nightlight.sh"; } // Toggle nightlight
+    Mod+Shift+Space { spawn-sh "~/.config/niri/scripts/waybar.sh toggle"; } // Toggle top bar
+    Mod+Ctrl+Comma { spawn-sh "~/.config/waybar/scripts/toggle-notification-silencing.sh"; } // Toggle silencing notifications
+    Mod+Shift+Comma { spawn "makoctl" "dismiss" "--all"; } // Dismiss all notifications
+    Mod+Alt+Comma { spawn "makoctl" "invoke"; } // Invoke last notification
+    Mod+Shift+Alt+Comma { spawn "makoctl" "restore"; } // Restore last notification
+    Mod+Ctrl+Space { spawn-sh "~/.config/hypr/scripts/wallpaper-reload.sh"; } // Reload wallpaper
+
+    // Capture: color picker and text from a region (screenshots are niri's, on PRINT)
+    Mod+Print { spawn-sh "pkill hyprpicker || hyprpicker -a"; } // Color picker
+    Mod+Ctrl+Print { spawn-sh "~/.config/hypr/scripts/ocr.sh"; } // Extract text (OCR) from screenshot
+
+    // Reminders and information without the bar
+    Mod+Ctrl+Alt+R { spawn-sh "~/.config/hypr/scripts/reminder.sh show"; } // Show reminders
+    Mod+Ctrl+Alt+T { spawn-sh "~/.config/hypr/scripts/notify-time.sh"; } // Show time
+    Mod+Ctrl+Alt+B { spawn-sh r#"notify-send -u low "$(~/.config/waybar/scripts/battery-status.sh)""#; } // Show battery remaining
+    Mod+Ctrl+Alt+W { spawn-sh r#"notify-send -u low "$(~/.config/waybar/scripts/weather.sh status)""#; } // Show weather
+
+    // Windows: close all and go to workspace 1; full width, as in Hyprland
+    Ctrl+Shift+Alt+Delete { spawn-sh "~/.config/niri/scripts/session.sh close"; } // Close all windows
+    Mod+Alt+F { maximize-column; } // Full width
+
+    // Workspaces and monitors. Super + Tab takes the next workspace, as in Hyprland: niri's window switcher stays on Alt + Tab
+    Mod+Tab { focus-workspace-down; }
+    Mod+Shift+Tab { focus-workspace-up; }
+    Mod+Ctrl+Tab { focus-workspace-previous; }
+    Ctrl+Alt+Tab { focus-monitor-next; }
+    Ctrl+Alt+Shift+Tab { focus-monitor-previous; }
+    Mod+Shift+Alt+Left  { move-workspace-to-monitor-left; }
+    Mod+Shift+Alt+Right { move-workspace-to-monitor-right; }
+    Mod+Shift+Alt+Up    { move-workspace-to-monitor-up; }
+    Mod+Shift+Alt+Down  { move-workspace-to-monitor-down; }
+
+    // Finer and bigger resizing than Super + Minus / Equal (pixels, as in Hyprland)
+    Mod+Alt+Minus { set-column-width "-25"; }
+    Mod+Alt+Equal { set-column-width "+25"; }
+    Mod+Shift+Alt+Minus { set-window-height "-25"; }
+    Mod+Shift+Alt+Equal { set-window-height "+25"; }
+    Mod+Ctrl+Minus { set-column-width "-300"; }
+    Mod+Ctrl+Equal { set-column-width "+300"; }
+    Mod+Ctrl+Shift+Minus { set-window-height "-300"; }
+    Mod+Ctrl+Shift+Equal { set-window-height "+300"; }
+
+    // Hyprland's window groups are niri's columns: several windows stacked, or as tabs (Super + G)
+    Mod+G { toggle-column-tabbed-display; } // Tabs on/off in this column
+    Mod+Alt+G { expel-window-from-column; }
+    Mod+Alt+Left  { consume-or-expel-window-left; }
+    Mod+Alt+Right { consume-or-expel-window-right; }
+    Mod+Alt+Up    { move-window-up; }
+    Mod+Alt+Down  { move-window-down; }
+    Mod+Alt+Tab { focus-window-down-or-top; }
+    Mod+Alt+Shift+Tab { focus-window-up-or-bottom; }
+    Mod+Alt+WheelScrollDown cooldown-ms=150 { focus-window-down; }
+    Mod+Alt+WheelScrollUp   cooldown-ms=150 { focus-window-up; }
+    Mod+Alt+1 { focus-window-in-column 1; }
+    Mod+Alt+2 { focus-window-in-column 2; }
+    Mod+Alt+3 { focus-window-in-column 3; }
+    Mod+Alt+4 { focus-window-in-column 4; }
+    Mod+Alt+5 { focus-window-in-column 5; }
+
+    // More media keys, also on the lock screen: precise volume and brightness, brightness max/min,
+    // keyboard backlight, pause, next/previous on Alt (+ Shift) + Play, eject, Shift + Mute switches the output
+    Alt+XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "~/.config/niri/scripts/osd.sh --output-volume +1"; } // Volume up precise
+    Alt+XF86AudioLowerVolume allow-when-locked=true { spawn-sh "~/.config/niri/scripts/osd.sh --output-volume -1"; } // Volume down precise
+    Alt+XF86MonBrightnessUp allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh +1%"; } // Brightness up precise
+    Alt+XF86MonBrightnessDown allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh 1%-"; } // Brightness down precise
+    Shift+XF86MonBrightnessUp allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh 100%"; } // Brightness maximum
+    Shift+XF86MonBrightnessDown allow-when-locked=true { spawn-sh "~/.config/niri/scripts/brightness.sh 1%"; } // Brightness minimum
+    XF86KbdBrightnessUp allow-when-locked=true { spawn-sh "~/.config/niri/scripts/keyboard-backlight.sh up"; } // Keyboard brightness up
+    XF86KbdBrightnessDown allow-when-locked=true { spawn-sh "~/.config/niri/scripts/keyboard-backlight.sh down"; } // Keyboard brightness down
+    XF86KbdLightOnOff allow-when-locked=true { spawn-sh "~/.config/niri/scripts/keyboard-backlight.sh cycle"; } // Keyboard backlight cycle
+    XF86AudioPause allow-when-locked=true { spawn-sh "playerctl play-pause"; } // Pause
+    Alt+XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl next"; } // Next track
+    Alt+Shift+XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl previous"; } // Previous track
+    XF86Eject allow-when-locked=true { spawn "eject"; } // Eject media
+    Shift+XF86AudioMute allow-when-locked=true { spawn-sh "~/.config/niri/scripts/audio-output-switch.sh"; } // Switch audio output
+}

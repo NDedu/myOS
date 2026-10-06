@@ -144,6 +144,16 @@ upower
 # Btrfs snapshots (inert until configured: install.txt section 11)
 snapper
 
+# Niri, the second session (pick Niri at the login screen, see niri/README.md):
+# X11 apps, screen sharing, lock screen, idle, night light, typing emojis
+niri
+xwayland-satellite
+xdg-desktop-portal-gnome
+swaylock
+swayidle
+wlsunset
+wtype
+
 # Screenshots, OCR, color picker, screen recording
 grim
 slurp

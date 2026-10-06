@@ -1,0 +1,45 @@
+# Lock screen in niri (Super + Ctrl + L or Alt + L, the system menu, idle and before suspend): black, with the
+# password ring in the solitude colors. The ring only shows while typing. Hyprland uses hyprlock instead
+# (~/.config/hypr/hyprlock.conf). Option names: man swaylock
+
+# Returns once the screen is locked, so swayidle can hold a suspend until then
+daemonize
+
+color=000000
+font=JetBrainsMonoNL Nerd Font
+ignore-empty-password
+show-failed-attempts
+indicator-caps-lock
+
+indicator-radius=80
+indicator-thickness=6
+
+# Nothing drawn inside the ring or between its parts, so it sits on plain black
+inside-color=00000000
+inside-clear-color=00000000
+inside-ver-color=00000000
+inside-wrong-color=00000000
+inside-caps-lock-color=00000000
+line-color=00000000
+line-clear-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+line-caps-lock-color=00000000
+separator-color=00000000
+
+# Ring: muted while typing, light while checking, red when wrong
+ring-color=343d41
+ring-clear-color=798186
+ring-ver-color=a5aeb4
+ring-wrong-color=de6145
+ring-caps-lock-color=c9c2b4
+key-hl-color=cacccc
+bs-hl-color=de6145
+caps-lock-key-hl-color=cacccc
+caps-lock-bs-hl-color=de6145
+
+text-color=cacccc
+text-clear-color=cacccc
+text-ver-color=cacccc
+text-wrong-color=de6145
+text-caps-lock-color=c9c2b4

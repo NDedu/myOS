@@ -1,0 +1,59 @@
+// The bar in niri: the Hyprland bar (~/.config/waybar/config.jsonc, included below, unchanged) with niri's
+// workspaces and clicks that go through the niri scripts. Values here win over the included file.
+// Started by scripts/waybar.sh; the look is ~/.config/waybar/style.css, as in Hyprland
+{
+  "include": ["~/.config/waybar/config.jsonc"],
+
+  "modules-left": ["custom/logo", "niri/workspaces", "custom/spacer", "group/toggles-expander"],
+
+  // Numbers, and the active one as a dot, like the Hyprland bar. niri adds an empty workspace at the end
+  "niri/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "active": "󱓻"
+    }
+  },
+
+  "custom/logo": {
+    "on-click": "~/.config/niri/scripts/menu.sh"
+  },
+
+  // Night light with wlsunset instead of hyprsunset (Hyprland only)
+  "custom/nightlight-indicator": {
+    "exec": "~/.config/niri/scripts/nightlight.sh status",
+    "on-click": "~/.config/niri/scripts/nightlight.sh"
+  },
+
+  // Stay awake / allow idle with swayidle instead of hypridle
+  "custom/idle-indicator": {
+    "exec": "~/.config/niri/scripts/idle.sh status",
+    "on-click": "~/.config/niri/scripts/idle.sh"
+  },
+
+  // The same clicks as in Hyprland, through the niri scripts: an open window is focused instead of opened twice,
+  // and the timezone picker restarts this bar rather than the Hyprland one
+  "clock": {
+    "on-click-right": "~/.config/waybar/scripts/floating-terminal.sh ~/.config/niri/scripts/tz-select.sh"
+  },
+  "cpu": {
+    "on-click": "~/.config/niri/scripts/launch-or-focus-tui.sh btop"
+  },
+  "memory": {
+    "on-click": "~/.config/niri/scripts/launch-or-focus-tui.sh btop"
+  },
+  "custom/temperature": {
+    "on-click": "~/.config/niri/scripts/launch-or-focus-tui.sh btop"
+  },
+  "custom/calcurse": {
+    "on-click": "~/.config/niri/scripts/launch-or-focus-tui.sh calcurse"
+  },
+  "network": {
+    "on-click": "rfkill unblock wifi; ~/.config/niri/scripts/launch-or-focus-tui.sh nmtui"
+  },
+  "bluetooth": {
+    "on-click": "rfkill unblock bluetooth; ~/.config/niri/scripts/launch-or-focus-tui.sh bluetui"
+  },
+  "pulseaudio": {
+    "on-click": "~/.config/niri/scripts/launch-or-focus-tui.sh wiremix"
+  }
+}

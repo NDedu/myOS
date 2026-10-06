@@ -1,23 +1,21 @@
 #!/bin/bash
 
-# Screensaver: ../screensaver.txt centered on a black screen in the solitude colors, static,
-# until a key is pressed or the window loses focus. Pure bash, no packages needed.
-# Runs inside the terminal opened by launch-screensaver.sh.
-
-source "$(dirname "$(readlink -f "$0")")/common.sh"
+# Screensaver in niri: ~/.config/hypr/screensaver.txt centered on a black screen in the solitude colors, static,
+# until a key is pressed or the window loses focus (niri version of ~/.config/hypr/scripts/screensaver.sh).
+# Runs inside the terminal opened by launch-screensaver.sh. niri hides the cursor by itself after a minute
+# without mouse movement (cursor in ../config.kdl); it has no command to hide it right away.
 
 export LC_ALL=${LC_ALL:-C.UTF-8} # count block characters as one character each
 
-text="$HYPR_DIR/screensaver.txt"
+text="$HOME/.config/hypr/screensaver.txt"
 
 screensaver_in_focus() {
-  hyprctl activewindow -j | jq -e '.class == "org.hypr.screensaver"' >/dev/null 2>&1
+  niri msg --json focused-window | jq -e '.app_id == "org.niri.screensaver"' >/dev/null 2>&1
 }
 
 exit_screensaver() {
   printf '\033[?25h'
-  hyprctl eval 'hl.config({ cursor = { invisible = false } })' >/dev/null 2>&1
-  pkill -f '[o]rg.hypr.screensaver' 2>/dev/null
+  pkill -f -- '--class=[o]rg.niri.screensaver' 2>/dev/null
   exit 0
 }
 
@@ -53,9 +51,8 @@ draw() {
 }
 
 printf '\033]11;rgb:00/00/00\007' # black background
-hyprctl eval 'hl.config({ cursor = { invisible = true } })' >/dev/null 2>&1
 
-# The terminal starts at 80x24 and resizes once the compositor sizes the window;
+# The terminal starts at 80x24 and resizes once niri sizes the window;
 # wait for that so the text is centered on the full screen
 deadline=$((SECONDS + 2))
 while ((SECONDS < deadline)) && [[ $(stty size 2>/dev/null) == "24 80" ]]; do
@@ -64,8 +61,8 @@ done
 
 draw
 
-# A resize only sets a flag. Redrawing from inside the trap starts subshells, which stops bash's
-# read -t from ever timing out, and the focus check with it
+# A resize (niri makes the window fullscreen after it opens) only sets a flag. Redrawing from inside the
+# trap starts subshells, which stops bash's read -t from ever timing out, and the focus check with it
 resized=false
 trap 'resized=true' SIGWINCH
 
