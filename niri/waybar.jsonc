@@ -1,13 +1,14 @@
 // The bar in niri: the Hyprland bar (~/.config/waybar/config.jsonc, included below, unchanged) with niri's
 // workspaces and clicks that go through the niri scripts. Values here win over the included file.
-// Started by scripts/waybar.sh; the look is ~/.config/waybar/style.css, as in Hyprland
+// Started by scripts/waybar.sh; the look is ~/.config/waybar/style.css, as in Hyprland, through waybar.css
 {
   "include": ["~/.config/waybar/config.jsonc"],
 
-  "modules-left": ["custom/logo", "niri/workspaces", "custom/spacer", "group/toggles-expander"],
+  "modules-left": ["custom/logo", "niri/workspaces#niri", "custom/spacer", "group/toggles-expander"],
 
-  // Numbers, and the active one as a dot, like the Hyprland bar. niri adds an empty workspace at the end
-  "niri/workspaces": {
+  // Numbers, and the active one as a dot, like the Hyprland bar. niri keeps an empty workspace after the last
+  // one; waybar.css hides it unless it's the one shown. "#niri" gives the CSS a class only this bar has
+  "niri/workspaces#niri": {
     "format": "{icon}",
     "format-icons": {
       "active": "󱓻"

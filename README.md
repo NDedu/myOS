@@ -50,6 +50,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 | SUPER + SHIFT + B | Browser |
 | CTRL + SHIFT + ALT + DELETE | Close every window and go to workspace 1 (no confirmation) |
 | SUPER + T / F | Float / fullscreen |
+| SUPER + M / SUPER + CTRL + F | Full width / fullscreen inside the tile |
 | SUPER + 1…0, SHIFT to move | Workspaces |
 | SUPER + ESCAPE | System menu (lock, suspend, restart, shutdown) |
 | SUPER + CTRL + L | Lock |
@@ -84,7 +85,8 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 | SUPER + SHIFT + arrows (or CTRL) | Move the column left / right, the window up / down in its column |
 | SUPER + CTRL + 1…9 | Move the whole column to that workspace (SHIFT moves only the window) |
 | SUPER + R | Column width: 1/3, 1/2, 2/3 (SHIFT: back) |
-| SUPER + ALT + F | Full width on/off; a workspace's first window opens full width |
+| SUPER + M | A workspace's first window opens full width; SUPER + M gives it the normal width |
+| SUPER + ALT + M | Maximize to the screen edges, without gaps or border |
 | SUPER + G | Tabs on/off in this column |
 | PRINT / CTRL + PRINT / ALT + PRINT | Screenshot a region (SPACE saves it) / the screen / the window (Menu > Capture records the screen) |
 
@@ -93,7 +95,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 1. a) **Hyprland**: monitor scale 1.33, 3-finger workspace swipe, per-workspace scrolling layout, pop-out windows, universal copy/paste, laptop display off/mirroring, lid handling and zoom.
    **hypridle** stays awake by default. SUPER + CTRL + I (or the coffee cup in the bar's drawer) allows idle: screensaver after 10 minutes, lock after 15. **hyprsunset** is the night light (SUPER + CTRL + N), off at every login.\
    b) **Niri**: the second session, with Hyprland's look and keys (`niri/README.md` compares the two). Monitor scale 1.33, scrolling columns, workspaces 1–5 always there, a workspace's first window at full width, the overview (SUPER + A, the top-left corner or a 4-finger swipe up), 3-finger swipes across columns and workspaces, universal copy/paste.
-   **swayidle** does hypridle's job, with the same switch and times. **swaylock** is the lock screen: black, with the password ring in the solitude colors. **wlsunset** is the night light (SUPER + CTRL + N), off at every login.
+   **swayidle** does hypridle's job, with the same switch and times. **hyprlock** is the lock screen too, the same as in Hyprland (swaylock if it doesn't start). **wlsunset** is the night light (SUPER + CTRL + N), off at every login.
 2. **Files**: **yazi** in ghostty (SUPER + SHIFT + F), also for folders opened from other apps. Its keys are in `yazi/cheatsheet.md`, and `~` inside yazi opens its help.
    **Nautilus** (SUPER + CTRL + SHIFT + F) has previews (Space), video thumbnails, phones and network shares, and shows hidden files. **Dolphin** stays available from "Open With".
 3. **Lock screen**: hyprlock on black with the logo in the middle (the same `screensaver.txt` as the screensaver), time and date at the top, password field at the bottom. SUPER + CTRL + L locks, and the displays turn off five minutes later (any key wakes them). It also locks before every suspend, from the menu or by closing the lid.
@@ -114,7 +116,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 - **XCompose**: Right Alt is the compose key. `Right Alt space n` types the name and `space e` the email.
 - **Also**: polkit agent for GUI password prompts, udiskie for USB automount.
 - **Niri only**: xwayland-satellite runs X11 apps, xdg-desktop-portal-gnome does screen sharing and recording, wtype types the emojis and the universal copy/paste keys.
-- **Logo**: `waybar/logo.txt` and `hypr/screensaver.txt` hold the same ASCII wordmark, so a new one replaces both. The screensaver and Hyprland's lock screen both draw `screensaver.txt`.
+- **Logo**: `waybar/logo.txt` and `hypr/screensaver.txt` hold the same ASCII wordmark, so a new one replaces both. The screensaver and the lock screen both draw `screensaver.txt`.
 
 ### Hyprland config layout
 
@@ -142,7 +144,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 - window rules: rounding, transparency, the screensaver, floating terminals, hidden from screen sharing
 - `binds`: niri's keys, Hyprland's where the two clash, then the rest of the Hyprland keys
 
-Next to it: `waybar.jsonc` (the Hyprland bar with niri's workspaces) and `scripts/` (the niri versions of Hyprland's scripts). The lock screen and the idle times are `swaylock/config` and `swayidle/config`.
+Next to it: `waybar.jsonc` (the Hyprland bar with niri's workspaces) and `scripts/` (the niri versions of Hyprland's scripts). The idle times are `swayidle/config`; the lock screen is Hyprland's `hyprlock.conf`, with `swaylock/config` as the fallback.
 
 ---
 

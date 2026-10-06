@@ -1,23 +1,23 @@
 # Idle in niri (started by ~/.config/niri/config.kdl with swayidle -w). Hyprland uses hypridle instead.
 # Stay awake by default, as in Hyprland: the screensaver and the idle lock only come while idle is allowed
 # (the bar's coffee cup: ~/.local/state/hypr/allow-idle, the same setting in both sessions).
-# Every lock closes the screensaver first, so it isn't left waiting behind the lock.
+# Locking is ~/.config/niri/scripts/lock.sh: hyprlock, or swaylock as the fallback.
 # Events: man swayidle. Every command runs in a shell.
 
 # Screensaver after 10 minutes, as in Hyprland: the logo until a key is pressed, no password needed
-timeout 600 '[ -f ~/.local/state/hypr/allow-idle ] && ! pidof swaylock >/dev/null && ~/.config/niri/scripts/launch-screensaver.sh'
+timeout 600 '[ -f ~/.local/state/hypr/allow-idle ] && ! pidof hyprlock swaylock >/dev/null && ~/.config/niri/scripts/launch-screensaver.sh'
 
 # Lock after 15 minutes. Opening the screensaver isn't activity for swayidle, so this still comes at 15
-timeout 900 '[ -f ~/.local/state/hypr/allow-idle ] && { pkill -f -- "--class=[o]rg.niri.screensaver"; swaylock; }'
+timeout 900 '[ -f ~/.local/state/hypr/allow-idle ] && ~/.config/niri/scripts/lock.sh'
 
 # Displays and keyboard backlight off five minutes into any lock, idle allowed or not. Each timeout runs once
 # per idle stretch, so a lock while in use gets 300 and the idle lock at 15 minutes gets its own, 1200
-timeout 300 'pidof swaylock >/dev/null && { ~/.config/hypr/scripts/brightness-keyboard.sh off; niri msg action power-off-monitors; }' resume '~/.config/hypr/scripts/brightness-keyboard.sh restore'
-timeout 1200 'pidof swaylock >/dev/null && { ~/.config/hypr/scripts/brightness-keyboard.sh off; niri msg action power-off-monitors; }' resume '~/.config/hypr/scripts/brightness-keyboard.sh restore'
+timeout 300 'pidof hyprlock swaylock >/dev/null && { ~/.config/hypr/scripts/brightness-keyboard.sh off; niri msg action power-off-monitors; }' resume '~/.config/hypr/scripts/brightness-keyboard.sh restore'
+timeout 1200 'pidof hyprlock swaylock >/dev/null && { ~/.config/hypr/scripts/brightness-keyboard.sh off; niri msg action power-off-monitors; }' resume '~/.config/hypr/scripts/brightness-keyboard.sh restore'
 
-# Lock before suspend; -w holds the suspend until swaylock has locked
-before-sleep 'pkill -f -- "--class=[o]rg.niri.screensaver"; swaylock'
+# Lock before suspend; -w holds the suspend until the lock script returns
+before-sleep '~/.config/niri/scripts/lock.sh'
 after-resume '~/.config/hypr/scripts/brightness-keyboard.sh restore'
 
 # loginctl lock-session
-lock 'pkill -f -- "--class=[o]rg.niri.screensaver"; swaylock'
+lock '~/.config/niri/scripts/lock.sh'

@@ -1,0 +1,15 @@
+/* The bar's look in niri: ~/.config/waybar/style.css, plus one rule. niri always keeps an empty workspace
+   after the last one; its button is hidden unless that workspace is the one shown */
+@import url("../waybar/style.css");
+
+#workspaces.niri button.empty:last-child:not(.active) {
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+/* The label too: style.css sizes every element (*), so the button's size isn't inherited */
+#workspaces.niri button.empty:last-child:not(.active) label {
+  font-size: 0;
+  min-width: 0;
+}

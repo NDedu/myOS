@@ -1,6 +1,5 @@
-# Lock screen in niri (Super + Ctrl + L or Alt + L, the system menu, idle and before suspend): black, with the
-# password ring in the solitude colors. The ring only shows while typing. Hyprland uses hyprlock instead
-# (~/.config/hypr/hyprlock.conf). Option names: man swaylock
+# The fallback lock screen in niri, when hyprlock is missing or doesn't start (~/.config/niri/scripts/lock.sh):
+# black, with the password ring in the solitude colors. The ring only shows while typing. Option names: man swaylock
 
 # Returns once the screen is locked, so swayidle can hold a suspend until then
 daemonize

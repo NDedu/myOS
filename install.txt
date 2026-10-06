@@ -190,7 +190,7 @@ down (active after reboot). To use it, remove the leading "# " from each line.
 10. NIRI  (a second session, picked at the login screen)
 --------------------------------------------------------
 
-niri with its own keys and tools (swaylock, swayidle, its screenshots), the Hyprland look, and the same
+niri with its own keys and tools (swayidle, its screenshots), the Hyprland look and lock screen, and the same
 bar, notifications and launcher. Its packages are in packages.txt (section 1). niri/README.md has the details.
 
     cp -r niri ~/.config/niri

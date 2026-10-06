@@ -145,7 +145,7 @@ upower
 snapper
 
 # Niri, the second session (pick Niri at the login screen, see niri/README.md):
-# X11 apps, screen sharing, lock screen, idle, night light, typing emojis and the copy/paste keys
+# X11 apps, screen sharing, the fallback lock screen, idle, night light, typing emojis and the copy/paste keys
 niri
 xwayland-satellite
 xdg-desktop-portal-gnome

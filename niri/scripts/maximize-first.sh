@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# A window opening on an empty workspace takes the full width, as if Super + Alt + F (maximize-column) was pressed,
-# like a lone window in Hyprland. Super + Alt + F gives it the normal width back. Started by ../config.kdl,
+# A window opening on an empty workspace takes the full width, as if Super + M (maximize-column) was pressed,
+# like a lone window in Hyprland. Super + M gives it the normal width back. Started by ../config.kdl,
 # follows niri's event stream for as long as the session runs.
 
 declare -A known

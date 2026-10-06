@@ -1,4 +1,4 @@
-// Niri session: niri's own keys and tools (swaylock, swayidle, its screenshots) with the Hyprland setup's
+// Niri session: niri's own keys and tools (swayidle, its screenshots) with the Hyprland setup's
 // look (solitude colors, border, rounding, gaps, scale) and apps (ghostty, fuzzel, waybar, mako, swaybg).
 // The niri-only files are this folder, ~/.config/swaylock and ~/.config/swayidle; the shared parts are the
 // Hyprland setup's own files, used as they are. Niri reloads this file on save; check it with: niri validate
@@ -18,17 +18,19 @@ input {
         numlock
     }
 
-    // As in Hyprland: tap to click, two-finger click for the right button, no natural scrolling,
+    // As in Hyprland: tap to click, two-finger click for the right button, natural scrolling (niri's default),
     // slower scrolling, touchpad off while typing
     touchpad {
         tap
         dwt
+        natural-scroll
         click-method "clickfinger"
         scroll-factor 0.4
     }
 
-    // The window under the mouse gets the focus, unless that would scroll the view to reach it
-    focus-follows-mouse max-scroll-amount="0%"
+    // The window under the mouse gets the focus, as in Hyprland; one that only peeks in at the edge
+    // scrolls into view (max-scroll-amount="0%" would leave those alone)
+    focus-follows-mouse
 }
 
 // Scales picked with Super + / and Super + Alt + / (scripts/display-scale.sh), one line per monitor. niri only
@@ -97,6 +99,11 @@ cursor {
 // No title bars drawn by the apps, as in Hyprland
 prefer-no-csd
 
+// No "Important Hotkeys" pop-up at startup: Super + K lists every key, Super + Shift + / shows niri's own
+hotkey-overlay {
+    skip-at-startup
+}
+
 // Same folder and names as the Hyprland screenshots
 screenshot-path "~/Pictures/screenshot-%Y-%m-%d_%H-%M-%S.png"
 
@@ -135,10 +142,10 @@ spawn-at-startup "udiskie" "--automount" "--no-notify" "--no-tray"
 spawn-sh-at-startup "~/.config/hypr/scripts/wallpaper-reload.sh --quiet"
 
 // Idle, and locking before suspend: ~/.config/swayidle/config. -w holds a suspend until the screen is locked.
-// The lock screen is swaylock (~/.config/swaylock/config)
+// The lock screen is hyprlock, as in Hyprland, or swaylock as the fallback (scripts/lock.sh)
 spawn-at-startup "swayidle" "-w"
 
-// A window opening on an empty workspace takes the full width (scripts/maximize-first.sh); Super + Alt + F toggles it
+// A window opening on an empty workspace takes the full width (scripts/maximize-first.sh); Super + M toggles it
 spawn-sh-at-startup "~/.config/niri/scripts/maximize-first.sh"
 
 // Rounded corners on every window, 6 px like Hyprland
@@ -233,7 +240,7 @@ binds {
     // Floating on/off, as in Hyprland; the terminal is on Super + Return and Super + E
     Mod+T { toggle-window-floating; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Super+Alt+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn-sh "~/.config/niri/scripts/lock.sh"; }
 
     // Screen reader
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; } // Screen reader
@@ -275,7 +282,7 @@ binds {
     Mod+Ctrl+H     { move-column-left; }
     Mod+Ctrl+J     { move-window-down; }
     Mod+Ctrl+K     { move-window-up; }
-    Mod+Ctrl+L     { spawn "swaylock"; } // Lock system
+    Mod+Ctrl+L     { spawn-sh "~/.config/niri/scripts/lock.sh"; } // Lock system
 
     Mod+Home { focus-column-first; }
     Mod+End  { focus-column-last; }
@@ -394,13 +401,13 @@ binds {
     Mod+Ctrl+Shift+R { spawn-sh "~/.config/hypr/scripts/reminder.sh clear"; } // Clear reminders
 
     // As in Hyprland: fullscreen, yazi, and fullscreen inside the tile (the app thinks it's fullscreen).
-    // Full width is Super + Alt + F
+    // Full width is Super + M
     Mod+F { fullscreen-window; }
     Mod+Shift+F { spawn-sh "~/.config/hypr/scripts/launch-file-manager.sh"; } // File manager (yazi)
-    Mod+Ctrl+F { toggle-windowed-fullscreen; }
+    Mod+Ctrl+F { toggle-windowed-fullscreen; } // Fullscreen inside the tile
 
     // Maximized to the screen edges, without gaps or border (like double-clicking a title bar)
-    Mod+M { maximize-window-to-edges; }
+    Mod+Alt+M { maximize-window-to-edges; }
 
     // Fill the space the other fully visible columns leave
     Mod+Ctrl+Alt+F { expand-column-to-available-width; }
@@ -430,9 +437,7 @@ binds {
     // Escape hatch for apps that grab every key (remote desktops). Super + Escape is the system menu
     Mod+Shift+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
-    // Log out, after a confirmation
-    Mod+Shift+E { quit; }
-    Ctrl+Alt+Delete { quit; }
+    // No quit keys (niri's Super + Shift + E and Ctrl + Alt + Delete): log out from Menu > System, as in Hyprland
 
     // Displays off until the next key or mouse movement
     Mod+Shift+P { power-off-monitors; }
@@ -496,7 +501,7 @@ binds {
 
     // Windows: close all and go to workspace 1; full width, as in Hyprland
     Ctrl+Shift+Alt+Delete { spawn-sh "~/.config/niri/scripts/session.sh close"; } // Close all windows
-    Mod+Alt+F { maximize-column; } // Full width
+    Mod+M { maximize-column; } // Full width
 
     // Workspaces and monitors. Super + Tab takes the next workspace, as in Hyprland: niri's window switcher stays on Alt + Tab
     Mod+Tab { focus-workspace-down; }

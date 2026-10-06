@@ -58,7 +58,7 @@ hl.config({
     numlock_by_default = true,
 
     touchpad = {
-      natural_scroll = false,
+      natural_scroll = true,
       clickfinger_behavior = true,
       scroll_factor = 0.4,
     },
@@ -80,5 +80,5 @@ hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
 
 -- More examples:
 -- hl.config({ input = { kb_layout = "us,ro", kb_options = "compose:ralt,grp:ctrls_toggle" } })
--- hl.config({ input = { touchpad = { natural_scroll = true } } })
+-- hl.config({ input = { touchpad = { natural_scroll = false } } })
 -- hl.gesture({ fingers = 3, direction = "left", action = function() hl.dispatch(hl.dsp.focus({ direction = "l" })) end })

@@ -2,7 +2,7 @@
 
 # The menus in niri (the bar's logo, Super + Space): the Hyprland menu (~/.config/hypr/scripts/menu.sh) without
 # what needs Hyprland (workspace layout, touchpad, webcam), with niri's own screenshot tool, keybinding list and
-# logout, swaylock and swayidle for locking and idle, and wlsunset for the night light
+# logout, swayidle for idle, and wlsunset for the night light
 # Usage: menu.sh [system|capture|reminder|screenrecord|toggle]
 
 SCRIPTS_DIR="$(dirname "$(readlink -f "$0")")"
@@ -69,7 +69,7 @@ show_system_menu() {
 
   case $(menu "System" "$options") in
   *Screensaver*) "$SCRIPTS_DIR/launch-screensaver.sh" ;;
-  *Lock*) swaylock ;;
+  *Lock*) "$SCRIPTS_DIR/lock.sh" ;;
   *Wallpaper*) "$HYPR_SCRIPTS/wallpaper-reload.sh" ;;
   *Suspend*) systemctl suspend ;;
   *Hibernate*) systemctl hibernate ;;
