@@ -61,6 +61,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 | SUPER + CTRL + A / B / W / T | Audio / Bluetooth / Wi-Fi / btop |
 | SUPER + SHIFT + SPACE | Hide/show bar |
 | SUPER + BACKSPACE | Toggle transparency |
+| SUPER + / and SUPER + ALT + / | Display scale up / down, remembered for each monitor |
 | SUPER + CTRL + SPACE | Reload the wallpaper after replacing the image (also in the system menu). The image file and how it fits the screen are set at the top of `hypr/scripts/wallpaper-reload.sh` |
 | SUPER + C / V / X | Copy / paste / cut everywhere |
 
@@ -72,7 +73,6 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 | SUPER + L | Toggle dwindle/scrolling on this workspace |
 | SUPER + S | Scratchpad (ALT: send the window there) |
 | SUPER + SHIFT + arrows | Swap the window with its neighbor |
-| SUPER + / and SUPER + ALT + / | Display scale up / down |
 | SUPER + SHIFT + BACKSPACE | Toggle gaps |
 | PRINT / ALT + PRINT | Screenshot (RETURN window, CTRL + RETURN screen) / screen recording |
 
@@ -133,7 +133,9 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 
 `niri/config.kdl` is one file, in this order:
 
-- `input` (keyboard, touchpad, focus follows the mouse), `output "eDP-1"` (scale 1.33), `workspace "1"` to `"5"`
+- `input` (keyboard, touchpad, focus follows the mouse)
+- the scales picked with SUPER + / (included from `~/.local/state/niri/output-scales.kdl`), then `output "eDP-1"` (scale 1.33)
+- `workspace "1"` to `"5"`
 - `layout`: gaps, column widths, the solitude border
 - `cursor`, `prefer-no-csd`, `screenshot-path`, `environment` (Hyprland's variables)
 - startup apps, as in `autostart.lua`, with swaybg, swayidle and `scripts/maximize-first.sh`

@@ -31,6 +31,10 @@ input {
     focus-follows-mouse max-scroll-amount="0%"
 }
 
+// Scales picked with Super + / and Super + Alt + / (scripts/display-scale.sh), one line per monitor. niri only
+// uses the first block that matches a monitor, so these win over the ones below; delete the file to go back
+include optional=true "~/.local/state/niri/output-scales.kdl"
+
 // The laptop display at 1.33, like Hyprland (hypr/modules/monitors.lua). Other monitors get niri's own guess;
 // list them with: niri msg outputs
 output "eDP-1" {
@@ -480,6 +484,8 @@ binds {
     Mod+Shift+Tab { focus-workspace-up; }
     Mod+Ctrl+Tab { focus-workspace-previous; }
     Ctrl+Alt+Tab { focus-monitor-next; }
+    Mod+Slash { spawn-sh "~/.config/niri/scripts/display-scale.sh up"; } // Monitor scaling up
+    Mod+Alt+Slash { spawn-sh "~/.config/niri/scripts/display-scale.sh down"; } // Monitor scaling down
     Ctrl+Alt+Shift+Tab { focus-monitor-previous; }
     Mod+Shift+Alt+Left  { move-workspace-to-monitor-left; }
     Mod+Shift+Alt+Right { move-workspace-to-monitor-right; }

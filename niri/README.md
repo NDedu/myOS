@@ -27,6 +27,7 @@ niri reloads `config.kdl` on save. Check it with `niri validate`.
 | Workspaces | 1–5 always there and always the same (Super + 1–5); past them, niri's own: made as needed, gone when empty | 1–10 |
 | New windows | the first window on an empty workspace takes the full width (`scripts/maximize-first.sh`); Super + Alt + F gives the normal width back | a lone window fills the screen |
 | Look | the same: solitude border, 6 px corners, 10 px gaps, scale 1.33, no title bars, slightly see-through windows | `hypr/modules/` |
+| Display scale | Super + / and Super + Alt + /, remembered for each monitor in `~/.local/state/niri/output-scales.kdl` (`scripts/display-scale.sh`) | the same keys and steps, in `~/.local/state/hypr/monitor-scales` |
 | Focus | follows the mouse, unless that would scroll the view | follows the mouse |
 | Lock screen | swaylock (`swaylock/config`): black, solitude ring | hyprlock with the logo |
 | Idle | swayidle (`swayidle/config`). Stay awake by default; allowed: the screensaver at 10 minutes, lock at 15 | hypridle: the same |
@@ -63,4 +64,4 @@ niri reloads `config.kdl` on save. Check it with `niri validate`.
 ## Not in niri
 
 - No niri equivalent: zoom, the scratchpad, pseudo-tiling, saving a window's width, the gaps and square-window
-  toggles, laptop display off and mirroring, monitor scaling keys, touchpad keys.
+  toggles, laptop display off and mirroring, touchpad keys.
