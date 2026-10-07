@@ -7,7 +7,7 @@ Minimal install (with some devtools for myself), only pacman. Every script these
 
 ## Install
 
-While installing Arch select Hyprland Desktop Environment and btrfs (recommended), and select to install packages from pre-install.txt (also do the root settings detailed at the end too).
+While installing Arch select Hyprland or Niri Desktop Environment and btrfs (recommended), and select to install packages from pre-install.txt (also do the root settings detailed at the end too).
 ```sh
 git clone https://github.com/NDedu/myOS.git
 cd myOS
@@ -102,7 +102,7 @@ Two extras stay commented out, with the commands in `install.txt` (sections 7 an
 4. **Terminal**: ghostty in the solitude palette, JetBrainsMonoNL Nerd Font 9. Bash with eza, zoxide, fzf, history search on arrows and git aliases, plus Starship, tmux and btop. The screensaver prints `screensaver.txt` on a black screen until a key is pressed.
 5. **Notifications**: mako, top right. SUPER + comma dismisses (SHIFT: all). SUPER + CTRL + comma or the bell toggles do not disturb, which still lets the desktop's own messages (reminders, screenshots, battery) through.
 6. **Power**: SUPER + ESCAPE opens the system menu (the power key too, after `install.txt` section 9). SUPER + CTRL + P or a click on the battery picks the power profile. A warning at 10% battery.
-7. **Waybar**: Solitude colors (`waybar/scripts/theme-set.sh <name>` switches themes). The star logo opens the main menu. Hovering an arrow opens a drawer: calendar, reminders, night light, stay awake and do not disturb left of the clock; CPU, RAM, temperature and tray left of Bluetooth. Hover the clock for the calendar, or click the calendar icon for calcurse.
+7. **Waybar**: Solitude colors (`waybar/scripts/theme-set.sh <name>` switches themes). The logo (Hyprland's, a star in niri) opens the main menu. Hovering an arrow opens a drawer: calendar, reminders, night light, stay awake and do not disturb left of the clock; CPU, RAM, temperature and tray left of Bluetooth. Hover the clock for the calendar, or click the calendar icon for calcurse.
 8. **fuzzel**: the app launcher (SUPER + ALT + SPACE) and every menu: system, power profile, capture, toggles, keybindings, clipboard history (SUPER + CTRL + V) and emojis (SUPER + CTRL + E).
 
 ### The rest of it

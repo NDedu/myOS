@@ -55,7 +55,7 @@
     "tooltip": false
   },
   "custom/logo": {
-    "format": "\udb82\udee3",
+    "format": "\uf359",
     "on-click": "~/.config/hypr/scripts/menu.sh",
     "on-click-right": "~/.config/waybar/scripts/terminal.sh org.waybar.terminal",
     "tooltip-format": "Menu\n\nSuper + Space"

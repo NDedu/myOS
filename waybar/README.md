@@ -30,7 +30,7 @@ It starts the bar, floats the terminals it opens, and adds the toggle keys.
 
 | Module | Left click | Right click |
 | --- | --- | --- |
-| Star logo | Main menu (apps, capture, reminders, toggles, system...) | Terminal |
+| Logo | Main menu (apps, capture, reminders, toggles, system...) | Terminal |
 | Clock (hover shows this month's calendar) | Switch between time and date view (`format` / `format-alt`) | Timezone picker |
 | Weather: temperature and condition icon (moon at night; hover shows place, temperature and conditions) | Notification with the wind too | Change the location: a city, or `auto` for the IP-based location (saved in `weather-location`) |
 | Update icon (shown when updates exist) | `sudo pacman -Syu` in a floating terminal | |
@@ -69,7 +69,7 @@ Customize `config.jsonc` and `style.css`, and leave `defaults/` untouched so the
 
 ## Notes
 
-- The logo is a four-point star from JetBrainsMonoNL Nerd Font (U+F0AE3) and opens the main menu from ~/.config/hypr/scripts/menu.sh
+- The logo is the Hyprland logo from JetBrainsMonoNL Nerd Font (U+F359), a four-point star (U+F0AE3) in niri, and opens the main menu from ~/.config/hypr/scripts/menu.sh
   (in niri, ~/.config/niri/scripts/menu.sh).
   To use an image instead, save it as `logo.svg` in this folder (white, so it shows on the dark bar) and replace
   `custom/logo` with `image#logo` in `modules-left` of `config.jsonc`.

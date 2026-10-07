@@ -15,7 +15,9 @@
     }
   },
 
+  // A four-point star instead of the Hyprland logo
   "custom/logo": {
+    "format": "\udb82\udee3",
     "on-click": "~/.config/niri/scripts/menu.sh"
   },
 
