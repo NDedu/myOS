@@ -87,7 +87,7 @@ See PACKAGES.md for what each package is for.
 Git (aliases and defaults, global ignore file):
 
     cp -r git ~/.config/git
-    cp -r lazygit ~/.config/lazygit      # lazygit look (solitude colors, nerd font icons)
+    cp -r lazygit ~/.config/lazygit      # lazygit look (zenwritten colors, nerd font icons)
     cp -r nvim ~/.config/nvim            # LazyVim; the first start downloads the plugins (needs internet)
     cp -r imv ~/.config/imv              # image viewer keys: Ctrl+X trash, Ctrl+R rotate, Ctrl+E edit in satty
     cp -r zed ~/.config/zed              # Zed editor; the first start installs its extensions (needs internet)

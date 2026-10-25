@@ -1,5 +1,5 @@
-# Solitude colors (~/.config/ghostty/themes/solitude)
-theme = solitude
+# Zenwritten warm colors (~/.config/ghostty/themes/zenwritten-warm)
+theme = zenwritten-warm
 
 # Font
 font-family = "JetBrainsMonoNL Nerd Font"
