@@ -102,6 +102,8 @@ go
 gopls
 zig
 zls
+odin
+ols
 clang
 rust
 

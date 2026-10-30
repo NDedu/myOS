@@ -20,7 +20,7 @@ grep -v -e '^#' -e '^\s*$' packages.txt | sudo pacman -S --needed -
 | Terminal and fonts | `ghostty` (what the configs launch) `alacritty` `ttf-jetbrains-mono-nerd` `noto-fonts` `noto-fonts-emoji` `ttf-liberation` `ttf-jetbrains-mono` `ttf-nerd-fonts-symbols` `ttf-noto-nerd` `woff2-font-awesome` |
 | Shell | `bash-completion` `git` `lazygit` `openssh` `starship` `eza` `fzf` `zoxide` `bat` `neovim` `ripgrep` `fd` `tree-sitter-cli` `gcc` `unzip` `zip` `luarocks` `tmux` `gum` `btop` `man-db` `man-pages` `wget` `make` `github-cli` `fastfetch` |
 | Editors | `vim` `nano` `kate` (`neovim` above, `zed` below) |
-| Languages and language servers | `go` `gopls` `zig` `zls` `clang` `rust` |
+| Languages and language servers | `go` `gopls` `zig` `zls` `odin` `ols` `clang` `rust` |
 | File manager (yazi, the default): previews for archives, PDFs and images | `yazi` `7zip` `poppler` `imagemagick` (`fd` `ripgrep` `fzf` `zoxide` above power its search and jump keys) |
 | Nautilus (windowed, on its own key): preview with Space, video thumbnails, phones, network shares | `nautilus` `sushi` `ffmpegthumbnailer` `gvfs-mtp` `gvfs-smb` `gvfs-nfs` |
 | Dolphin (kept, not the default) and icons | `dolphin` `kio-extras` `ffmpegthumbs` `kdegraphics-thumbnailers` `archlinux-xdg-menu` `gnome-themes-extra` `papirus-icon-theme` `breeze-icons` |

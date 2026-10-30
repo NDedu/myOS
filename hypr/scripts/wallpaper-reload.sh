@@ -8,7 +8,7 @@
 source "$(dirname "$(readlink -f "$0")")/common.sh"
 
 # Wallpaper settings: the only place to edit when the image or its format changes (jpg, jpeg, png, webp)
-WALLPAPER="$HYPR_DIR/wallpaper.jpeg"
+WALLPAPER="$HYPR_DIR/wallpaper.png"
 # How it covers the screen: fill (crop to cover), fit (whole image, with bars), stretch, center or tile
 MODE="fill"
 

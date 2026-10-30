@@ -46,7 +46,7 @@ See PACKAGES.md for what each package is for.
     ~/.config/hypr/hyprlock.conf     lock screen (logo, time, date, password field)
     ~/.config/hypr/hyprsunset.conf   nightlight
     ~/.config/hypr/xdph.conf         screen sharing portal
-    ~/.config/hypr/wallpaper.jpeg    desktop wallpaper (file name set in scripts/wallpaper-reload.sh)
+    ~/.config/hypr/wallpaper.png     desktop wallpaper (file name set in scripts/wallpaper-reload.sh)
     ~/.config/hypr/screensaver.txt   logo shown by the screensaver and the lock screen
     ~/.config/hypr/scripts/          every script the config calls
 
