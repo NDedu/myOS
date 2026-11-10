@@ -74,9 +74,11 @@ hl.config({
 o.window("(Alacritty|kitty|foot)", { scroll_touchpad = 1.5 })
 o.window("com.mitchellh.ghostty", { scroll_touchpad = 0.2 })
 
--- Three-finger horizontal swipe changes workspace.
+-- Three-finger horizontal swipe changes workspace, one number at a time: from 1 it goes to 2,
+-- even when 2 is empty, instead of jumping to the next one with windows.
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Gestures/
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+hl.config({ gestures = { workspace_swipe_use_r = true } })
 
 -- More examples:
 -- hl.config({ input = { kb_layout = "us,ro", kb_options = "compose:ralt,grp:ctrls_toggle" } })
